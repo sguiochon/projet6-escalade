@@ -47,6 +47,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- ... other dependency elements ... -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <!-- Tell Spring Boot to setup Thymeleaf for page rendering. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

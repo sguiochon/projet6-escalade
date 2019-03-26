@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 
-<head th:substituteby="header :: copy"></head>
+<head th:replace="header :: copy"></head>
 
 <!-- 
  This default page is designed to support several defaults:
@@ -60,7 +60,7 @@
 		)
 	</p>
 
-	<div th:substituteby="footer :: copy"></div>
+	<div th:replace="footer :: copy"></div>
 
 </body>
 </html>
