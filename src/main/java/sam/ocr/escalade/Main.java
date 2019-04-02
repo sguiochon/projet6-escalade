@@ -1,17 +1,25 @@
-package sam.ocr.escalade.main;
+package sam.ocr.escalade;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.ImportResource;
-
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import sam.ocr.escalade.model.Privilege;
+import sam.ocr.escalade.model.Role;
+import sam.ocr.escalade.model.User;
+import sam.ocr.escalade.repository.PrivilegeRepository;
+import sam.ocr.escalade.repository.RoleRepository;
+import sam.ocr.escalade.repository.UserRepository;
 
 import java.util.Properties;
 
-@SpringBootApplication(scanBasePackages = { "sam.ocr.escalade" })
-//@ImportResource("classpath:mvc-configuration.xml")
+@SpringBootApplication(scanBasePackages = {"sam.ocr.escalade"})
+@EnableJpaRepositories(basePackages = {"sam.ocr.escalade"})
 public class Main extends SpringBootServletInitializer {
 
     /**
@@ -32,21 +40,11 @@ public class Main extends SpringBootServletInitializer {
      * @see Profiles
      */
     public static final String activeProfile = Profiles.DEMO_CONFIG_PROFILE;
+    private static final Logger log = LoggerFactory.getLogger(Main.class);
 
-    // Local logger
-    protected Logger logger;
 
     // Holds Spring Boot configuration properties
     protected Properties props = new Properties();
-
-    /**
-     * Retrieve requested Profiles. Depends on the value of {@link #activeProfile}.
-     *
-     * @return Comma-separated list of profiles.
-     */
-    public static String getProfiles() {
-        return activeProfile;
-    }
 
     /**
      * We are using the constructor to perform some useful initializations:
@@ -60,8 +58,17 @@ public class Main extends SpringBootServletInitializer {
      * </ol>
      */
     public Main() {
-        logger = LoggerFactory.getLogger(getClass());
-        logger.info("Application starting ");
+        //logger = LoggerFactory.getLogger(getClass());
+        log.info("Application starting ");
+    }
+
+    /**
+     * Retrieve requested Profiles. Depends on the value of {@link #activeProfile}.
+     *
+     * @return Comma-separated list of profiles.
+     */
+    public static String getProfiles() {
+        return activeProfile;
     }
 
     /**
@@ -88,14 +95,13 @@ public class Main extends SpringBootServletInitializer {
      * application (via the class annotations above). This method is only used when
      * running as a Java application.
      *
-     * @param args
-     *            Any command line arguments.
+     * @param args Any command line arguments.
      */
     protected void runAsJavaApplication(String[] args) {
         SpringApplicationBuilder application = new SpringApplicationBuilder();
         configure(application);
         application.run(args);
-        logger.info("Go to this URL: http://localhost:8080/");
+        log.info("Go to this URL: http://localhost:8080/");
     }
 
     /**
@@ -103,20 +109,67 @@ public class Main extends SpringBootServletInitializer {
      * This method is invoked automatically when running in a container and
      * explicitly by {@link #runAsJavaApplication(String[])}.
      *
-     * @param application
-     *            Spring Boot application builder.
+     * @param application Spring Boot application builder.
      */
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         application.sources(Main.class);
 
-        logger.info("Spring Boot configuration: profiles = " + activeProfile);
+        log.info("Spring Boot configuration: profiles = " + activeProfile);
         application.profiles(activeProfile);
 
         // Set additional properties.
-        logger.info("Spring Boot configuratoon: properties = " + props);
+        log.info("Spring Boot configuratoon: properties = " + props);
         application.properties(props);
 
         return application;
     }
+
+
+    @Bean
+    public CommandLineRunner demo(UserRepository userRepository, PasswordEncoder encoder, RoleRepository roleRepository, PrivilegeRepository privilegeRepository) {
+        return (args) -> {
+            // save a couple of customers
+
+            Privilege privilege = new Privilege("USER");
+            Privilege savedPrivilege = privilegeRepository.save(privilege);
+
+            Role role1 = new Role("visiteur");
+            role1.addPrivilege(savedPrivilege);
+            Role savedRole = roleRepository.save(role1);
+
+            User user1 = new User().setEmail("user@hell.com").setFirstName("Jack").setLastName("Bauer").setPassword(encoder.encode("1234"));
+            user1.addRole(savedRole);
+            User savedUser = userRepository.save(user1);
+
+            // fetch all customers
+            log.info("Customers found with findAll():");
+            log.info("-------------------------------");
+            for (User user: userRepository.findAll()) {
+                log.info(user.toString());
+            }
+            log.info("");
+
+            // fetch an individual customer by ID
+            userRepository.findById(1L)
+                    .ifPresent(customer -> {
+                        log.info("Customer found with findById(1L):");
+                        log.info("--------------------------------");
+                        log.info(customer.toString());
+                        log.info("");
+                    });
+
+            // fetch customers by last name
+            log.info("Customer found with findByLastName('Bauer'):");
+            log.info("--------------------------------------------");
+            userRepository.findAll().forEach(bauer -> {
+                log.info(bauer.toString());
+            });
+            // for (Customer bauer : repository.findByLastName("Bauer")) {
+            // 	log.info(bauer.toString());
+            // }
+            log.info("");
+        };
+    }
+
 }

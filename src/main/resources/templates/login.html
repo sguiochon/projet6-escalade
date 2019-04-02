@@ -1,0 +1,50 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: copy"></head>
+
+<body>
+
+<p style="display:block"></p>
+<div class="container">
+    <p>&nbsp;</p>
+    <h1 th:text="#{loginpage.label.welcome}">Bienvenue!<span class="badge badge-secondary">New</span></h1>
+    <p>&nbsp;</p>
+
+    <div class="card mb-3" style="width: 550px">
+        <img class="card-img-top" src="depositphotos_login.jpg" alt="Card image cap">
+        <div class="card-body">
+            <div th:if="${loginError}" class="alert alert-warning" role="alert">
+            Wrong user or password
+            </div>
+            <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label for="username">Email address</label>
+                    <input type="email" class="form-control" name="username" id="username" aria-describedby="emailHelp"
+                           placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="remember-me" id="remember-me">
+                    <label class="form-check-label" for="remember-me">Check me out</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <p>&nbsp;</p>
+
+    <p><a href="/index" th:href="@{/index}">Back to home page</a></p>
+</div>
+
+
+<div th:replace="footer :: copy"></div>
+
+</body>
+</html>

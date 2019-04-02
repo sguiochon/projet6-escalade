@@ -1,4 +1,4 @@
-package sam.ocr.escalade.main;
+package sam.ocr.escalade;
 
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 

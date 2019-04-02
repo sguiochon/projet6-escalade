@@ -1,0 +1,80 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: copy"></head>
+
+<body>
+
+<div class="container">
+
+    <span th:text="${#httpServletRequest.getServletPath()}"></span>
+    <span th:text="${#httpServletRequest.getRequestURL()}"></span>
+
+    <h1 th:text="${#httpServletRequest.getContextPath()}">Coucou!!</h1>
+
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+
+    <h1>Vos critères de recherche:</h1>
+    <form th:action="@{/sites}" method="post">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="t01">Pays</span>
+        </div>
+        <select class="custom-select" id="inputGroupSelect01" name="pays">
+            <option selected>Choose...</option>
+            <option value="FRANCE">France</option>
+            <option value="TURQUIE">Turquie</option>
+            <option value="USA">USA</option>
+        </select>
+
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="t02">Nom du site</span>
+        </div>
+        <input type="text" class="form-control" name="site">
+
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">Difficulté Max</label>
+        </div>
+        <select class="custom-select" id="inputGroupSelect02" name="choix">
+            <option selected>Choose...</option>
+            <option value="1">3 - 5b (simple)</option>
+            <option value="2">5b+ - 6a (moyen)</option>
+            <option value="3">6a+ - 7a (difficile)</option>
+            <option value="4">7b - 9b (expert)</option>
+        </select>
+    </div>
+        <p>&nbsp;</p>
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+        <button type="submit" class="btn btn-secondary">Effacer les critères</button>
+    </form>
+
+    <p>&nbsp;</p>
+
+
+    <p th:text="${currentPage}">Page?</p>
+    <p th:text="${totalPage}">Page?</p>
+
+
+    <th:block th:each="site : ${sites}">
+        <div class="card" style="width: 100%">
+            <img class="card-img-top" th:src="${site.imageUrl}" src="mont-blanc_720x160.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${site.pays} + ' - ' +  ${site.nom}">FRANCE - Vallée de Chamonix</h5>
+                <p class="card-text" th:text="${site.description}">Some quick example text to build on the card title
+                    and make up the bulk of the card's
+                    content.</p>
+                <a href="#" class="btn btn-primary" th:href="@{site(id=${site.id})}">En savoir plus</a>
+            </div>
+        </div>
+        <p/>
+    </th:block>
+
+</div>
+
+
+<div th:replace="footer :: copy"></div>
+
+</body>
+</html>

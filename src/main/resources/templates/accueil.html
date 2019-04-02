@@ -1,0 +1,103 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: copy"></head>
+
+<body>
+
+<div class="container">
+
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <h1 th:text="#{welcomepage.label.welcome}">Les meilleurs sites du moment...<span
+            class="badge badge-secondary">New</span></h1>
+    <p>&nbsp;</p>
+
+    <div th:fragment="logout" class="logout" sec:authorize="isAuthenticated()">
+        Logged in user: <span sec:authentication="name"></span> |
+        Roles: <span sec:authentication="principal.authorities"></span>
+        <div>
+            <form action="#" th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout"/>
+            </form>
+        </div>
+    </div>
+
+    <div sec:authorize="hasRole('USER')">Text visible to user.</div>
+    <div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
+    <div sec:authorize="isAuthenticated()">
+        Text visible only to authenticated users.
+    </div>
+
+
+    <th:block th:each="site : ${sites}">
+        <div class="card" style="width: 100%">
+            <img class="card-img-top" th:src="${site.imageUrl}" src="mont-blanc_720x160.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${site.pays} + ' - ' +  ${site.nom}">FRANCE - Vallée de Chamonix</h5>
+                <p class="card-text" th:text="${site.description}">Some quick example text to build on the card title
+                    and make up the bulk of the card's
+                    content.</p>
+                <a href="#" class="btn btn-primary" th:href="@{site(id=${site.id})}">En savoir plus</a>
+            </div>
+        </div>
+        <p/>
+    </th:block>
+
+    <div class="card" style="width: 100%">
+        <img class="card-img-top" src="mont-blanc_720x160.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">FRANCE - Vallée de Chamonix</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">En savoir plus</a>
+        </div>
+    </div>
+
+    <p/>
+
+
+    <div class="card" style="width: 100%">
+        <img class="card-img-top" src="wadi-rum_jordanie_720x160.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Jordanie</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">En savoir plus</a>
+        </div>
+    </div>
+
+    <p/>
+
+    <div class="card" style="width: 100%">
+        <img class="card-img-top" src="turkey_720x160.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Turquie</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">En savoir plus</a>
+        </div>
+    </div>
+
+    <p/>
+
+    <div class="card" style="width: 100%">
+        <img class="card-img-top" src="verdon_720x160.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Verdon</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">En savoir plus</a>
+        </div>
+    </div>
+
+    <p/>
+
+</div>
+
+
+<div th:replace="footer :: copy"></div>
+
+</body>
+</html>
