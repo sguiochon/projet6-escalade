@@ -1,10 +1,11 @@
 package sam.ocr.escalade.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import sam.ocr.escalade.model.ListePays;
 import sam.ocr.escalade.model.Site;
 import sam.ocr.escalade.model.SiteDescription;
 import sam.ocr.escalade.repository.SiteRepository;
@@ -14,6 +15,8 @@ import java.util.Optional;
 
 @Service
 public class SiteService {
+
+    private static final Logger log = LoggerFactory.getLogger(SiteService.class);
 
     @Autowired
     private SiteRepository siteRepository;
@@ -37,21 +40,23 @@ public class SiteService {
 
     public Page<Site> getSites(int pageSize, int pageNumber, String paramPays, String paramSite, String paramNiveau){
 
-        ListePays listePays = paramPays==null?null:processParamPays(paramPays);
+        String pays = (paramPays==null||paramPays.equals(""))?null:paramPays;
         String niveau = paramNiveau==null?null:processParamNiveau(paramNiveau);
         String site = (paramSite==null||paramSite.equals(""))?null:paramSite;
 
+        log.debug("### Searching 'Site' matching : Pays=" + pays + ", niveau="+niveau + ", Site=" + site);
+
         PageRequest pageIn = PageRequest.of(pageNumber, pageSize);
 
-        if (listePays!=null && site==null && niveau==null){
-            return siteRepository.findByPays(pageIn, listePays);
+        if (pays!=null && site==null && niveau==null){
+            return siteRepository.findByPays(pageIn, pays);
         }
 
-        if (listePays==null && site==null && niveau!=null){
+        if (pays==null && site==null && niveau!=null){
             return siteRepository.findByCotationMaxLessThanEqual(pageIn, niveau);
         }
 
-        if (listePays==null && site!=null && niveau==null){
+        if (pays==null && site!=null && niveau==null){
             return siteRepository.findByNomContains(pageIn, site);
         }
 
@@ -61,15 +66,6 @@ public class SiteService {
         return pageOut;
     }
 
-    private ListePays processParamPays(String paramPays){
-        ListePays listePays = null;
-        try {
-            listePays = ListePays.valueOf(paramPays);
-        } catch (IllegalArgumentException e) {
-            // valeur du champ 'pays' invalide donc ignorée...
-        }
-        return listePays;
-    }
 
     private String processParamNiveau(String paramNiveau) {
         switch (paramNiveau) {

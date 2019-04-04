@@ -13,8 +13,7 @@ public class Site {
     private String nom;
     @NotNull(message = "le champ 'description' ne peut pas être vide.")
     private String description;
-    @Enumerated(value = EnumType.STRING)
-    private ListePays pays;
+    private String pays;
     private Integer hauteur;
     private String cotationMin;
     private String cotationMax;
@@ -57,11 +56,11 @@ public class Site {
         this.description = description;
     }
 
-    public ListePays getPays() {
+    public String getPays() {
         return pays;
     }
 
-    public void setPays(ListePays pays) {
+    public void setPays(String pays) {
         this.pays = pays;
     }
 

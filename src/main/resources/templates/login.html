@@ -16,24 +16,20 @@
         <img class="card-img-top" src="depositphotos_login.jpg" alt="Card image cap">
         <div class="card-body">
             <div th:if="${loginError}" class="alert alert-warning" role="alert">
-            Wrong user or password
+            Email ou mot de passe incorrect
             </div>
             <form th:action="@{/login}" method="post">
                 <div class="form-group">
-                    <label for="username">Email address</label>
+                    <label for="username">Email</label>
                     <input type="email" class="form-control" name="username" id="username" aria-describedby="emailHelp"
                            placeholder="Enter email">
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="password">Mot de passe</label>
                     <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                 </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" name="remember-me" id="remember-me">
-                    <label class="form-check-label" for="remember-me">Check me out</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Se connecter</button>
             </form>
         </div>
     </div>
@@ -44,7 +40,7 @@
 </div>
 
 
-<div th:replace="footer :: copy"></div>
+<!--<div th:replace="footer :: copy"></div>-->
 
 </body>
 </html>

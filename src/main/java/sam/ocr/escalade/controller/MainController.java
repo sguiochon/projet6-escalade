@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import sam.ocr.escalade.model.ListePays;
 import sam.ocr.escalade.model.Site;
 import sam.ocr.escalade.service.CommentaireService;
 import sam.ocr.escalade.service.SiteService;
@@ -58,7 +57,7 @@ public class MainController {
         model.addAttribute("sites", page.getContent());
         model.addAttribute("currentPage", iPage);
         model.addAttribute("totalPage", page.getTotalPages());
-        model.addAttribute("listePays", ListePays.values());
+        model.addAttribute("listePays", pays);
         return "sites";
     }
 

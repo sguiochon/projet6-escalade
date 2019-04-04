@@ -10,13 +10,14 @@
 
 	<logger name="sam.ocr.escalade" level="DEBUG" />
 
-	<!-- to view SQL statements, change to DEBUG -->
+	<!-- to view SQL statements, set to DEBUG -->
 	<logger name="org.hibernate.SQL" level="DEBUG" />
 
 	<logger name="org.springframework" level="INFO"/>
-	<logger name="org.springframework.jpa" level="DEBUG"/>
-	<logger name="org.springframework.jdbc" level="DEBUG" />
+	<logger name="org.springframework.jpa" level="DEBUG" additivity="false"/>
+	<logger name="org.springframework.jdbc" level="DEBUG" additivity="false"/>
 	<logger name="org.springframework.transaction" level="WARN" />
+	<logger name="org.springframework.security" level="INFO" additivity="false"/>
 
 	<!-- in order to debug some marshalling issues, this needs to be TRACE -->
 	<logger name="org.springframework.web.servlet.mvc" level="TRACE" />
