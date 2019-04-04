@@ -22,6 +22,16 @@ public class Site {
     private String orientation;
     private String imageUrl;
     private boolean isMisEnAvant;
+    @OneToOne
+    private SiteDescription detail;
+
+    public SiteDescription getDetail() {
+        return detail;
+    }
+
+    public void setDetail(SiteDescription detail) {
+        this.detail = detail;
+    }
 
     public Integer getId() {
         return id;

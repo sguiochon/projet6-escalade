@@ -10,15 +10,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import sam.ocr.escalade.model.ListePays;
 import sam.ocr.escalade.model.Site;
+import sam.ocr.escalade.service.CommentaireService;
 import sam.ocr.escalade.service.SiteService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 public class MainController {
@@ -27,9 +35,12 @@ public class MainController {
 
     SiteService siteService;
 
+    CommentaireService commentaireService;
+
     @Autowired
-    public MainController(SiteService siteService){
+    public MainController(SiteService siteService, CommentaireService commentaireService){
         this.siteService = siteService;
+        this.commentaireService = commentaireService;
     }
 
     @RequestMapping("/")
@@ -41,13 +52,34 @@ public class MainController {
     }
 
     @RequestMapping("/sites")
-    public String showSites(@RequestParam(name="p", required=false) String pageNb, @RequestParam(required=false)String pays, @RequestParam(required=false)String site, Model model){
+    public String showSites(@RequestParam(name="p", required=false) String pageNb, @RequestParam(required=false)String pays, @RequestParam(required=false)String site, @RequestParam(required = false) String niveau, Model model){
         int iPage = pageNb==null?0:Integer.parseInt(pageNb);
-        Page<Site> page = siteService.getSites(2, iPage, pays, site);
+        Page<Site> page = siteService.getSites(2, iPage, pays, site, niveau);
         model.addAttribute("sites", page.getContent());
         model.addAttribute("currentPage", iPage);
         model.addAttribute("totalPage", page.getTotalPages());
+        model.addAttribute("listePays", ListePays.values());
         return "sites";
+    }
+
+    @RequestMapping("/site")
+    public String showSite(@RequestParam Integer id, Model model){
+        Optional<Site> result = siteService.getSite(id);
+        model.addAttribute("site", result.get());
+        return "site";
+    }
+
+    @RequestMapping(value = "/commentaire/{siteId}", method = POST)
+    public String saveCommentaire(@PathVariable("siteId") String siteId, @RequestParam(name="contenu", required = false) String contenu, RedirectAttributes redirectAttributes, Principal principal){
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> site id: " + siteId);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> contenu: " + contenu);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> principal: " + principal.getClass().getName());
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> principal name: " + principal.getName());
+
+        commentaireService.submitCommentaire(Integer.parseInt(siteId), principal.getName(), contenu);
+
+        redirectAttributes.addAttribute("id", siteId);
+        return "redirect:/site";
     }
 
     @RequestMapping("/login")

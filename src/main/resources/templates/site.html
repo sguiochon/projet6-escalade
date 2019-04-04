@@ -1,0 +1,87 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head th:replace="header :: copy"></head>
+
+<body>
+
+<div class="container">
+
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+
+    <div class="card" style="width: 100%">
+        <img class="card-img-top" th:src="${site.imageUrl}" src="mont-blanc_720x160.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${site.pays} + ' - ' +  ${site.nom}">FRANCE - Vallée de Chamonix</h5>
+            <div>
+                <button type="button" class="btn btn-grey">
+                    Hauteur <span th:text="${site.hauteur} + 'm'" class="badge badge-light"></span>
+                </button>
+                <button type="button" class="btn btn-grey">
+                    Difficulté <span th:text="${site.cotationMin} + ' à ' + ${site.cotationMax}"
+                                     class="badge badge-light"></span>
+                </button>
+                <button type="button" class="btn btn-grey">
+                    Nb de voies <span th:text="${site.nbDeVoies}" class="badge badge-light"></span>
+                </button>
+                <button type="button" class="btn btn-grey">
+                    Orientation <span th:text="${site.orientation}" class="badge badge-light"></span>
+                </button>
+            </div>
+            <p class="card-text" th:text="${site.description}">Some quick example text to build on the card title
+                and make up the bulk of the card's
+                content.</p>
+
+
+        </div>
+    </div>
+    <p/>
+
+    <h2 th:if="${site.detail.commentaires.size()}>0">Vos commentaires</h2>
+
+    <div th:with="commentaires = ${site.detail.commentaires}">
+        <th:block th:each="commentaire : ${commentaires}">
+
+            <div class="card">
+                <div class="card-header" th:text="${commentaire.auteur.firstName} + ' ' + ${commentaire.auteur.lastName} + ', le ' + ${#calendars.format(commentaire.creationDate,'E dd MMMM yyyy')} ">
+                </div>
+                <div class="card-body">
+                    <p class="card-text" th:text="${commentaire.contenu}">Contenu</p>
+                </div>
+            </div>
+            <h6>&nbsp;</h6>
+
+        </th:block>
+
+    </div>
+
+    <div sec:authorize="!isAuthenticated()">
+        Connectez-vous pour laisser un commentaire
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+        <div class="card">
+            <div class="card-header" >Votre commentaire:
+            </div>
+            <div class="card-body">
+                <form th:action="@{/commentaire/{id}(id=${site.id})}" method="post">
+                    <div class="form-group">
+                        <textarea class="form-control" id="textarea1" rows="3" name="contenu" placeholder="Saisissez votre message ici..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+<div th:replace="footer :: copy"></div>
+
+</body>
+</html>
