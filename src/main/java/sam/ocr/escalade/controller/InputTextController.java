@@ -1,8 +1,10 @@
 package sam.ocr.escalade.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sam.ocr.escalade.service.SiteService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +12,9 @@ import java.util.List;
 
 @RestController
 public class InputTextController {
+
+   @Autowired
+   SiteService siteService;
 
    @RequestMapping("/pays")
     public List<String> getCountries(){
@@ -20,8 +25,7 @@ public class InputTextController {
 
    @RequestMapping("/nomSite")
    public List<String> getNomSite(){
-      // todo implémenter la fonctionnalité
-      return null;
+      return siteService.getAllNoms();
    }
 
 }

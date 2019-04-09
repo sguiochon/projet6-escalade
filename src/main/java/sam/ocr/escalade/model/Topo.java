@@ -1,9 +1,7 @@
 package sam.ocr.escalade.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Topo {
@@ -14,5 +12,14 @@ public class Topo {
 
     private String nom;
 
+    @Column(columnDefinition="TEXT")
+    private String description;
+
+    private String nomRessource;
+
+    @Enumerated(value = EnumType.STRING)
     private TopoStatut statut;
+
+    @ManyToMany
+    private List<Site> sites;
 }

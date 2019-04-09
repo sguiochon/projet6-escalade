@@ -12,7 +12,7 @@
     <p>&nbsp;</p>
 
     <div class="card" style="width: 100%">
-        <img class="card-img-top" th:src="${site.imageUrl}" src="mont-blanc_720x160.jpg" alt="Card image cap">
+        <img class="card-img-top" th:src="${site.image1}" src="mont-blanc_720x160.jpg" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title" th:text="${site.pays} + ' - ' +  ${site.nom}">FRANCE - Vallée de Chamonix</h5>
             <div>
@@ -30,12 +30,21 @@
                     Orientation <span th:text="${site.orientation}" class="badge badge-light"></span>
                 </button>
             </div>
-            <p class="card-text" th:text="${site.description}">Some quick example text to build on the card title
-                and make up the bulk of the card's
-                content.</p>
+            <p class="card-text" th:text="${site.description}">Description du site ici...</p>
+        </div>
 
+        <div th:if="${site.description}!=null" class="card-body" th:object="${site.detail}">
+            <h5 class="card-title" th:text="*{titre1}"></h5>
+            <p th:utext="*{contenu1}"></p>
+
+            <h5 class="card-title" th:text="*{titre2}"></h5>
+            <p th:utext="*{contenu2}"></p>
+
+            <h5 class="card-title" th:text="*{titre3}"></h5>
+            <p th:utext="*{contenu3}"></p>
 
         </div>
+
     </div>
     <p/>
 
@@ -58,7 +67,8 @@
     </div>
 
     <div sec:authorize="!isAuthenticated()">
-        Connectez-vous pour laisser un commentaire
+        <a th:href=@{/login} class="btn btn-primary">Connectez-vous</a> pour laisser un commentaire...
+        <p>&nbsp;</p>
     </div>
 
     <div sec:authorize="isAuthenticated()">

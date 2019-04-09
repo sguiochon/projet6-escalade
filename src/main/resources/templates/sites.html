@@ -10,68 +10,96 @@
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <h1>Trouvez le site de vos rêves...</h1>
+
     <h3>Vos critères de recherche:</h3>
-    <form method="post" th:action="@{/sites}" autocomplete="off">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="t01">Pays</span>
+    <form id="searchSiteForm" autocomplete="off" method="get" th:object="${recherche}" th:action="@{/sites}">
+        <div class="row">
+            <div class="col">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="t01">Pays</span>
+                    </div>
+                    <input class="form-control" id="pays" name="pays" type="text" th:value="*{pays}">
+                </div>
             </div>
-            <input class="form-control" id="pays" name="pays" type="text">
 
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="t02">Nom du site</span>
+            <div class="col">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="t02">Nom du site</span>
+                    </div>
+                    <input class="form-control" id="site" name="site" type="text" th:value="*{site}">
+                </div>
             </div>
-            <input class="form-control" id="site" name="site" type="text">
 
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect02">Difficulté Max</label>
+            <div class="col">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="niveau">Difficulté Max</label>
+                    </div>
+                    <select class="custom-select" id="niveau" name="niveau" th:field="*{niveau}">
+                        <option value="0">Votre choix...</option>
+                        <option value="1">3 - 5b (simple)</option>
+                        <option value="2">5b+ - 6a (moyen)</option>
+                        <option value="3">6a+ - 7a (difficile)</option>
+                        <option value="4">7b - 9b (expert)</option>
+                    </select>
+                </div>
             </div>
-            <select class="custom-select" id="inputGroupSelect02" name="niveau">
-                <option selected>Votre choix...</option>
-                <option value="1">3 - 5b (simple)</option>
-                <option value="2">5b+ - 6a (moyen)</option>
-                <option value="3">6a+ - 7a (difficile)</option>
-                <option value="4">7b - 9b (expert)</option>
-            </select>
         </div>
         <h6>&nbsp;</h6>
         <button class="btn btn-primary" type="submit">Rechercher</button>
-        <button class="btn btn-secondary" type="reset">Effacer les critères</button>
+        <button class="btn btn-secondary" onclick="clearSearchSiteForm()" value="Effacer les critères">Effacer les critères</button>
+
+        <p>&nbsp;</p>
+        <h3 th:if="${sites.size()}==0">Aucun site de correspond à ces critères...</h3>
+
+        <nav th:if="${nav}!=null" aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <button class="page-link" name="p" th:type="${nav.previous}==null?'text':'submit'" type="submit" th:value="${nav.previous}==null?0:${nav.previous.number}" value="0">&laquo;</button>
+                </li>
+
+                <li th:each="item : ${nav.items}" class="page-item">
+                    <button th:class="${item.isCurrent()}==true?'btn btn-primary':'page-link'" class="page-link" type="submit" name="p" th:text="${item.number}+1" th:value="${item.number}" value="1"></button>
+                </li>
+
+                <li class="page-item">
+                    <button class="page-link" name="p" th:type="${nav.next}==null?'text':'submit'" type="submit" th:value="${nav.next}==null?0:${nav.next.number}" value="1">&raquo;</button>
+                </li>
+            </ul>
+        </nav>
+
     </form>
 
-    <p>&nbsp;</p>
-
-
+<!--
     <p th:text="${currentPage}">Page?</p>
     <p th:text="${totalPage}">Page?</p>
-
-    <h3 th:if="${sites.size()}==0">Aucun site de correspond à ces critères...</h3>
+-->
 
     <th:block th:each="site : ${sites}">
         <div class="card" style="width: 100%">
-            <img alt="Card image cap" class="card-img-top" src="mont-blanc_720x160.jpg" th:src="${site.imageUrl}">
             <div class="card-body">
                 <h5 class="card-title" th:text="${site.pays} + ' - ' +  ${site.nom}">FRANCE - Vallée de Chamonix</h5>
-                <div>
-                    <button class="btn btn-grey" type="button">
-                        Hauteur <span class="badge badge-light" th:text="${site.hauteur} + 'm'"></span>
-                    </button>
-                    <button class="btn btn-grey" type="button">
-                        Difficulté <span class="badge badge-light"
-                                         th:text="${site.cotationMin} + ' à ' + ${site.cotationMax}"></span>
-                    </button>
-                    <button class="btn btn-grey" type="button">
-                        Nb de voies <span class="badge badge-light" th:text="${site.nbDeVoies}"></span>
-                    </button>
-                    <button class="btn btn-grey" type="button">
-                        Orientation <span class="badge badge-light" th:text="${site.orientation}"></span>
-                    </button>
-                </div>
+                <img class="float-left" th:src="${site.image2}" src="mont-blanc_160x160.jpg" style="padding-right:8px" alt="Card image cap">
                 <p class="card-text" th:text="${site.description}">Some quick example text to build on the card title
                     and make up the bulk of the card's
                     content.</p>
-
-                <a class="btn btn-primary" href="#" th:href="@{site(id=${site.id})}">En savoir plus</a>
+                <div>
+                    <button type="button" class="btn btn-grey">
+                        Hauteur <span th:text="${site.hauteur} + 'm'" class="badge badge-light"></span>
+                    </button>
+                    <button type="button" class="btn btn-grey">
+                        Difficulté <span th:text="${site.cotationMin} + ' à ' + ${site.cotationMax}" class="badge badge-light"></span>
+                    </button>
+                    <button type="button" class="btn btn-grey">
+                        Nb de voies <span th:text="${site.nbDeVoies}" class="badge badge-light"></span>
+                    </button>
+                    <button type="button" class="btn btn-grey">
+                        Orientation <span th:text="${site.orientation}" class="badge badge-light"></span>
+                    </button>
+                    <a href="#" class="btn btn-primary" th:href="@{site(id=${site.id})}">En savoir plus</a>
+                </div>
             </div>
         </div>
         <p/>
@@ -86,7 +114,7 @@
         url: "pays", success: function (result) {
             console.log(result);
             countries = result;
-            autocomplete(document.getElementById("pays"), countries);
+            autocompleteIfContains(document.getElementById("pays"), countries);
         }
     });
     var siteNames;
@@ -94,13 +122,11 @@
         url: "nomSite", success: function (result) {
             console.log(result);
             siteNames = result;
-            autocomplete(document.getElementById("site"), siteNames);
+            autocompleteIfContains(document.getElementById("site"), siteNames);
         }
     });
 </script>
 
-
-<!--<div th:replace="footer :: copy"></div>-->
 
 </body>
 </html>

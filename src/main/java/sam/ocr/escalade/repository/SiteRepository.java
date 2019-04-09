@@ -1,7 +1,6 @@
 package sam.ocr.escalade.repository;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import sam.ocr.escalade.model.Site;
@@ -17,4 +16,12 @@ public interface SiteRepository extends JpaRepository<Site, Integer> {
     Page<Site> findByNomContains(Pageable page, String contains);
 
     Page<Site> findByPays(Pageable page, String pays);
+
+    Page<Site> findByPaysAndNomContains(Pageable pageIn, String pays, String site);
+
+    Page<Site> findByPaysAndNomContainsAndCotationMaxLessThanEqual(Pageable pageIn, String pays, String site, String niveau);
+
+    Page<Site> findByPaysAndCotationMaxLessThanEqual(Pageable pageIn, String pays, String niveau);
+
+    Page<Site> findByNomContainsAndCotationMaxLessThanEqual(Pageable pageIn, String site, String niveau);
 }

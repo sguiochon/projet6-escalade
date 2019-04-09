@@ -12,6 +12,7 @@ public class Site {
     @NotNull(message = "Le champ 'nom' ne peut pas être vide.")
     private String nom;
     @NotNull(message = "le champ 'description' ne peut pas être vide.")
+    @Column(columnDefinition="TEXT")
     private String description;
     private String pays;
     private Integer hauteur;
@@ -19,7 +20,8 @@ public class Site {
     private String cotationMax;
     private String nbDeVoies;
     private String orientation;
-    private String imageUrl;
+    private String image1;
+    private String image2;
     private boolean isMisEnAvant;
     @OneToOne
     private SiteDescription detail;
@@ -104,12 +106,20 @@ public class Site {
         this.orientation = orientation;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImage1() {
+        return image1;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage1(String image1) {
+        this.image1 = image1;
+    }
+
+    public String getImage2() {
+        return image2;
+    }
+
+    public void setImage2(String image2) {
+        this.image2 = image2;
     }
 
     public boolean isMisEnAvant() {

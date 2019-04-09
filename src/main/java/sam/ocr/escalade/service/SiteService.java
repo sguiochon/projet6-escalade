@@ -10,6 +10,7 @@ import sam.ocr.escalade.model.Site;
 import sam.ocr.escalade.model.SiteDescription;
 import sam.ocr.escalade.repository.SiteRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,49 +22,62 @@ public class SiteService {
     @Autowired
     private SiteRepository siteRepository;
 
-    public SiteService(SiteRepository siteRepository){
+    public SiteService(SiteRepository siteRepository) {
         this.siteRepository = siteRepository;
     }
 
-    public List<Site> getSitesMisEnAvant(){
+    public List<Site> getSitesMisEnAvant() {
         return siteRepository.findByIsMisEnAvant(true);
     }
 
-    public Optional<Site> getSite(Integer id){
+    public Optional<Site> getSite(Integer id) {
         Optional<Site> result = siteRepository.findById(id);
         SiteDescription detail = result.get().getDetail();
-        if (detail!=null){
+        if (detail != null) {
             detail.getCommentaires();
         }
         return result;
     }
 
-    public Page<Site> getSites(int pageSize, int pageNumber, String paramPays, String paramSite, String paramNiveau){
+    public Page<Site> getSites(int pageSize, int pageNumber, String paramPays, String paramSite, String paramNiveau) {
 
-        String pays = (paramPays==null||paramPays.equals(""))?null:paramPays;
-        String niveau = paramNiveau==null?null:processParamNiveau(paramNiveau);
-        String site = (paramSite==null||paramSite.equals(""))?null:paramSite;
+        String pays = (paramPays == null || paramPays.equals("")) ? null : paramPays;
+        String niveau = paramNiveau == null ? null : processParamNiveau(paramNiveau);
+        String site = (paramSite == null || paramSite.equals("")) ? null : paramSite;
 
-        log.debug("### Searching 'Site' matching : Pays=" + pays + ", niveau="+niveau + ", Site=" + site);
+        log.debug("### Searching 'Site' matching : Pays=" + pays + ", niveau=" + niveau + ", Site=" + site);
 
         PageRequest pageIn = PageRequest.of(pageNumber, pageSize);
 
-        if (pays!=null && site==null && niveau==null){
+        if (pays == null && site == null && niveau == null)
+            return siteRepository.findAll(pageIn);
+
+        if (pays != null && site == null && niveau == null) {
             return siteRepository.findByPays(pageIn, pays);
         }
 
-        if (pays==null && site==null && niveau!=null){
+        if (pays == null && site == null && niveau != null) {
             return siteRepository.findByCotationMaxLessThanEqual(pageIn, niveau);
         }
 
-        if (pays==null && site!=null && niveau==null){
+        if (pays == null && site != null && niveau == null) {
             return siteRepository.findByNomContains(pageIn, site);
         }
 
-//todo: ajouter les recherches combinées....
+        if (pays != null && site != null && niveau == null) {
+            return siteRepository.findByPaysAndNomContains(pageIn, pays, site);
+        }
 
-        Page<Site> pageOut = siteRepository.findAll(pageIn);
-        return pageOut;
+        if (pays != null && site == null && niveau != null) {
+            return siteRepository.findByPaysAndCotationMaxLessThanEqual(pageIn, pays, niveau);
+        }
+
+        if (pays == null && site != null && niveau != null) {
+            return siteRepository.findByNomContainsAndCotationMaxLessThanEqual(pageIn, site, niveau);
+        }
+
+        return siteRepository.findByPaysAndNomContainsAndCotationMaxLessThanEqual(pageIn, pays, site, niveau);
+
     }
 
 
@@ -82,4 +96,12 @@ public class SiteService {
         }
     }
 
+    public List<String> getAllNoms() {
+        List<Site> sites = siteRepository.findAll();
+        List<String> noms = new ArrayList<>();
+        for (Site site : sites) {
+            noms.add(site.getNom());
+        }
+        return noms;
+    }
 }

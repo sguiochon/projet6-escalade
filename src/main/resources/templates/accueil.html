@@ -33,9 +33,12 @@
 
     <th:block th:each="site : ${sites}">
         <div class="card" style="width: 100%">
-            <img class="card-img-top" th:src="${site.imageUrl}" src="mont-blanc_720x160.jpg" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title" th:text="${site.pays} + ' - ' +  ${site.nom}">FRANCE - Vallée de Chamonix</h5>
+                <img class="float-left" th:src="${site.image2}" src="mont-blanc_160x160.jpg" style="padding-right:8px" alt="Card image cap">
+                <p class="card-text" th:text="${site.description}">Some quick example text to build on the card title
+                    and make up the bulk of the card's
+                    content.</p>
                 <div>
                     <button type="button" class="btn btn-grey">
                         Hauteur <span th:text="${site.hauteur} + 'm'" class="badge badge-light"></span>
@@ -49,11 +52,8 @@
                     <button type="button" class="btn btn-grey">
                         Orientation <span th:text="${site.orientation}" class="badge badge-light"></span>
                     </button>
+                    <a href="#" class="btn btn-primary" th:href="@{site(id=${site.id})}">En savoir plus</a>
                 </div>
-                <p class="card-text" th:text="${site.description}">Some quick example text to build on the card title
-                    and make up the bulk of the card's
-                    content.</p>
-                <a href="#" class="btn btn-primary" th:href="@{site(id=${site.id})}">En savoir plus</a>
             </div>
         </div>
         <p/>
