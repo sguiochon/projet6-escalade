@@ -16,17 +16,17 @@
         <div class="card-body">
             <h5 class="card-title" th:text="${site.pays} + ' - ' +  ${site.nom}">FRANCE - Vallée de Chamonix</h5>
             <div>
-                <button type="button" class="btn btn-grey">
+                <button type="button" class="btn btn-secondary" style="margin:1px">
                     Hauteur <span th:text="${site.hauteur} + 'm'" class="badge badge-light"></span>
                 </button>
-                <button type="button" class="btn btn-grey">
+                <button type="button" class="btn btn-secondary" style="margin:1px">
                     Difficulté <span th:text="${site.cotationMin} + ' à ' + ${site.cotationMax}"
                                      class="badge badge-light"></span>
                 </button>
-                <button type="button" class="btn btn-grey">
+                <button type="button" class="btn btn-secondary" style="margin:1px">
                     Nb de voies <span th:text="${site.nbDeVoies}" class="badge badge-light"></span>
                 </button>
-                <button type="button" class="btn btn-grey">
+                <button type="button" class="btn btn-secondary" style="margin:1px">
                     Orientation <span th:text="${site.orientation}" class="badge badge-light"></span>
                 </button>
             </div>
@@ -43,7 +43,11 @@
             <h5 class="card-title" th:text="*{titre3}"></h5>
             <p th:utext="*{contenu3}"></p>
 
+            <h5 class="card-title">Localisation</h5>
+            <div id="mapid" style="height: 25em"></div>
+
         </div>
+
 
     </div>
     <p/>
@@ -66,6 +70,7 @@
 
     </div>
 
+    <a id="commentaire"></a>
     <div sec:authorize="!isAuthenticated()">
         <a th:href=@{/login} class="btn btn-primary">Connectez-vous</a> pour laisser un commentaire...
         <p>&nbsp;</p>
@@ -90,7 +95,13 @@
 
 </div>
 
-<!--<div th:replace="footer :: copy"></div>-->
+<script  th:inline="javascript">
+
+    var lat = /*[[${site.detail.latitude}]]*/ 50;
+    var long = /*[[${site.detail.longitude}]]*/ 0;
+    generateMap(lat, long);
+
+</script>
 
 </body>
 </html>

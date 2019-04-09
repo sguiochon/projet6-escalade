@@ -214,3 +214,16 @@ function clearSearchSiteForm(){
     document.getElementById('niveau').value="0";
     console.log("clearing form");
 }
+
+/* Map generation */
+function generateMap(lat, long){
+    var mymap = L.map('mapid').setView([lat,  long], 16);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'pk.eyJ1Ijoic2d1aW9jaG9uIiwiYSI6ImNqdTloMG85bzI4ZXozeXRhcGsxN3ViYmQifQ.2U8U01gZtia6wln24rIT0g'
+    }).addTo(mymap);
+    var marker = L.marker([lat, long]).addTo(mymap);
+    marker.bindPopup("<b>Le site d'escalade</b>").openPopup();
+}

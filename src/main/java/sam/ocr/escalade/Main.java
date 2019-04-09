@@ -128,6 +128,7 @@ public class Main extends SpringBootServletInitializer {
 
     @Bean
     public CommandLineRunner demo(UserRepository userRepository, PasswordEncoder encoder, RoleRepository roleRepository, PrivilegeRepository privilegeRepository) {
+/*
         return (args) -> {
             // save a couple of customers
 
@@ -170,6 +171,8 @@ public class Main extends SpringBootServletInitializer {
             // }
             log.info("");
         };
+        */
+        return (args) -> {};
     }
 
 }

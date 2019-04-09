@@ -8,27 +8,19 @@
 
 <div class="container">
 
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
+    <div class="jumbotron">
+        <h1 class="display-4">Bienvenue sur <strong>Verti<span style="color:red">GO!</span></strong></h1>
+        <p class="lead">Site communautaire fait <strong>par</strong> et <strong>pour</strong> les amoureux de l'escalade afin de partager leur connaissance des sites.</p>
+        <hr class="my-4">
+        <p>Vous trouverez sur le site des informations pour choisir vos prochaines sorties en fonction de vos critères personnels. Vous pourrez également réserver des topos fournis par d'autres passionnés.</p>
+        <p>Nous vous invitons également à partager vos propres topos afin de faire vivre notre communauté grandissante. </p>
+    </div>
+
     <h1 th:text="#{welcomepage.label.welcome}">Les meilleurs sites du moment...<span
             class="badge badge-secondary">New</span></h1>
     <p>&nbsp;</p>
 
-    <div th:fragment="logout" class="logout" sec:authorize="isAuthenticated()">
-        Logged in user: <span sec:authentication="name"></span> |
-        Roles: <span sec:authentication="principal.authorities"></span>
-        <div>
-            <form action="#" th:action="@{/logout}" method="post">
-                <input type="submit" value="Logout"/>
-            </form>
-        </div>
-    </div>
 
-    <div sec:authorize="hasRole('USER')">Text visible to user.</div>
-    <div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
-    <div sec:authorize="isAuthenticated()">
-        Text visible only to authenticated users.
-    </div>
 
 
     <th:block th:each="site : ${sites}">
@@ -40,16 +32,16 @@
                     and make up the bulk of the card's
                     content.</p>
                 <div>
-                    <button type="button" class="btn btn-grey">
+                    <button type="button" class="btn btn-secondary" style="margin:1px">
                         Hauteur <span th:text="${site.hauteur} + 'm'" class="badge badge-light"></span>
                     </button>
-                    <button type="button" class="btn btn-grey">
+                    <button type="button" class="btn btn-secondary"style="margin:1px">
                         Difficulté <span th:text="${site.cotationMin} + ' à ' + ${site.cotationMax}" class="badge badge-light"></span>
                     </button>
-                    <button type="button" class="btn btn-grey">
+                    <button type="button" class="btn btn-secondary"style="margin:1px">
                         Nb de voies <span th:text="${site.nbDeVoies}" class="badge badge-light"></span>
                     </button>
-                    <button type="button" class="btn btn-grey">
+                    <button type="button" class="btn btn-secondary"style="margin:1px">
                         Orientation <span th:text="${site.orientation}" class="badge badge-light"></span>
                     </button>
                     <a href="#" class="btn btn-primary" th:href="@{site(id=${site.id})}">En savoir plus</a>

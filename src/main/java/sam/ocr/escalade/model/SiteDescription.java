@@ -19,8 +19,26 @@ public class SiteDescription {
     private String titre3;
     @Column(columnDefinition = "TEXT")
     private String contenu3;
+    private Double latitude;
+    private Double longitude;
     @OneToMany
     private List<Commentaire> commentaires;
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
 
     public String getTitre1() {
         return titre1;

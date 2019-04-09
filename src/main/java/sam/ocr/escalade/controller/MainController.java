@@ -96,7 +96,7 @@ public class MainController {
         commentaireService.submitCommentaire(Integer.parseInt(siteId), principal.getName(), contenu);
 
         redirectAttributes.addAttribute("id", siteId);
-        return "redirect:/site";
+        return "redirect:/site?#commentaire";
     }
 
     @RequestMapping("/login")
