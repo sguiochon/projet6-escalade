@@ -23,7 +23,7 @@ import java.util.List;
 @Service//("userDetailsService")
 @Qualifier("userDetailsService")
 @Transactional
-public class MyUserDetailsService implements UserDetailsService {
+public class VertigoUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -34,7 +34,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private HttpServletRequest request;
 
-    public MyUserDetailsService() {
+    public VertigoUserDetailsService() {
         super();
     }
 

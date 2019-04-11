@@ -30,9 +30,9 @@ import java.util.Optional;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
-public class MainController {
+public class SiteController {
 
-    Logger logger = LoggerFactory.logger(MainController.class);
+    Logger logger = LoggerFactory.logger(SiteController.class);
 
     SiteService siteService;
 
@@ -42,7 +42,7 @@ public class MainController {
     private final static int NAVNBITEMS = 3;
 
     @Autowired
-    public MainController(SiteService siteService, CommentaireService commentaireService){
+    public SiteController(SiteService siteService, CommentaireService commentaireService){
         this.siteService = siteService;
         this.commentaireService = commentaireService;
     }
@@ -110,6 +110,7 @@ public class MainController {
         return "login";
     }
 
+    /*
     @RequestMapping("/sample")
     public String showForm(HttpServletRequest request) {
 
@@ -132,7 +133,7 @@ public class MainController {
             }
         };
         return "sample";
-    }
+    }*/
 
     private NavDTO buildNavInfo(int currentPage, int totalPages){
         if (totalPages==1)

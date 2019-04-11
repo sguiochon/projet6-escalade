@@ -112,6 +112,16 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                    <groupId>com.heroku.sdk</groupId>
+                    <artifactId>heroku-maven-plugin</artifactId>
+                    <version>2.0.8</version>
+                <configuration>
+                    <appName>fragoland</appName>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
