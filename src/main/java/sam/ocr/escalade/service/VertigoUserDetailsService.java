@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Service//("userDetailsService")
+@Service
 @Qualifier("userDetailsService")
 @Transactional
 public class VertigoUserDetailsService implements UserDetailsService {

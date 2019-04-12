@@ -19,9 +19,9 @@ public class SiteService {
 
     private static final Logger log = LoggerFactory.getLogger(SiteService.class);
 
-    @Autowired
-    private SiteRepository siteRepository;
+    private final SiteRepository siteRepository;
 
+    @Autowired
     public SiteService(SiteRepository siteRepository) {
         this.siteRepository = siteRepository;
     }
@@ -32,9 +32,11 @@ public class SiteService {
 
     public Optional<Site> getSite(Integer id) {
         Optional<Site> result = siteRepository.findById(id);
-        SiteDescription detail = result.get().getDetail();
-        if (detail != null) {
-            detail.getCommentaires();
+        if (result.isPresent()) {
+            SiteDescription detail = result.get().getDetail();
+            if (detail != null) {
+                detail.getCommentaires();
+            }
         }
         return result;
     }
@@ -42,7 +44,7 @@ public class SiteService {
     public Page<Site> getSites(int pageSize, int pageNumber, String paramPays, String paramSite, String paramNiveau) {
 
         String pays = (paramPays == null || paramPays.equals("")) ? null : paramPays;
-        String niveau = paramNiveau == null ? null : processParamNiveau(paramNiveau);
+        String niveau = (paramNiveau == null) ? null : processParamNiveau(paramNiveau);
         String site = (paramSite == null || paramSite.equals("")) ? null : paramSite;
 
         log.debug("### Searching 'Site' matching : Pays=" + pays + ", niveau=" + niveau + ", Site=" + site);

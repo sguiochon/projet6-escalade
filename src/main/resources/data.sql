@@ -27,9 +27,18 @@ VALUES (1, 2);
 
 INSERT INTO user_account (id,email,first_name, last_name,password, secret, enabled, is_using2fa)
 VALUES (3, 'user@hell.com', 'Jack', 'Bauer', '$2a$11$xc8x65LwMEFB2zugF8h5vOHWojwGpp3Om9OXVw1YJWvckR1uyXrVq','secret!', TRUE, FALSE);
+INSERT INTO user_account (id,email,first_name, last_name,password, secret, enabled, is_using2fa)
+VALUES (4, 'arthur@hell.com', 'Arthur', 'Morgan', '$2a$11$xc8x65LwMEFB2zugF8h5vOHWojwGpp3Om9OXVw1YJWvckR1uyXrVq','secret!', TRUE, FALSE);
+INSERT INTO user_account (id,email,first_name, last_name,password, secret, enabled, is_using2fa)
+VALUES (5, 'harry@hell.com', 'Harry', 'Callahan', '$2a$11$xc8x65LwMEFB2zugF8h5vOHWojwGpp3Om9OXVw1YJWvckR1uyXrVq','secret!', TRUE, FALSE);
+
 
 INSERT INTO users_roles (user_id, role_id)
 VALUES (3, 1);
+INSERT INTO users_roles (user_id, role_id)
+VALUES (4, 1);
+INSERT INTO users_roles (user_id, role_id)
+VALUES (5, 1);
 
 
 INSERT INTO commentaire (id, contenu, creation_date, auteur_id)
@@ -156,3 +165,28 @@ Quand y aller? Meilleure période: On peut grimper toute l’année, bien se ren
 titre3 = 'Hébergement',
 contenu3='Ce n’est pas ce qui manque dans la vallée de Chamonix. Campings, hôtels, chambres d’hôtes, meublés à louer en passant par les restos, sandwicheries, McDo… Et selon l’endroit, vous pourrez même prendre des cours d’anglais avec la réceptionniste. De tout à tous les prix, mais réservation quasi impérative pour la saison estivale. <a href="http://www.chamonix.com">Office de tourisme de Chamonix</a>'
 WHERE id=7;
+
+
+INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
+VALUES (hibernate_sequence.nextval, '6a Max Dauphiné', 'Une sélection d’escalades de 4+ à 6a en Dauphiné', '', 'libre', 'topo_1.jpg', 3);
+
+INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
+VALUES (hibernate_sequence.nextval, 'Avignon Soleil', 'Une sélection d’escalades de 4+ à 6a en Dauphiné', '', 'libre', 'topo_2.jpg', 3);
+
+INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
+VALUES (hibernate_sequence.nextval, 'El Pirineo Occidental', 'Une sélection d’escalades deans les pyrénées occidentales', '', 'libre', 'topo_3.jpg', 3);
+
+INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
+VALUES (hibernate_sequence.nextval, 'Corsica Bloc', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_4.jpg', 4);
+
+INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
+VALUES (hibernate_sequence.nextval, 'Escalar en España', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_5.jpg', 4);
+
+INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
+VALUES (hibernate_sequence.nextval, 'Dolomites', 'Une sélection d’escalades dans les Dolomites', '', 'libre', 'topo_6.jpg', 4);
+
+INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
+VALUES (hibernate_sequence.nextval, 'Envers des aiguilles', 'Les voies des Aiguilles Rouges', '', 'libre', 'topo_7.jpg', 5);
+
+INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
+VALUES (hibernate_sequence.nextval, 'Escalada en Castelion', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_8.jpg', 5);

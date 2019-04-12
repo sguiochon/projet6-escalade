@@ -1,11 +1,11 @@
 package sam.ocr.escalade.dto;
 
-public class RechercheSiteDTO {
+public class RechercheSiteDTO extends RechercheDTO{
 
     private String pays;
     private String niveau;
     private String site;
-    private String pageNb;
+
 
     public String getPays() {
         return pays;
@@ -31,11 +31,4 @@ public class RechercheSiteDTO {
         this.site = site;
     }
 
-    public String getPageNb() {
-        return pageNb;
-    }
-
-    public void setPageNb(String pageNb) {
-        this.pageNb = pageNb;
-    }
 }

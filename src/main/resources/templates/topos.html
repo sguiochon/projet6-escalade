@@ -9,52 +9,38 @@
 <div class="container">
     <p>&nbsp;</p>
     <p>&nbsp;</p>
-    <h1>Trouvez le site de vos rêves...</h1>
+    <h1>Pour préparer vos prochaines sorties, rien de tel qu'un topo!</h1>
 
-    <h3>Vos critères de recherche:</h3>
-    <form autocomplete="off" id="searchSiteForm" method="get" th:action="@{/sites}" th:object="${recherche}">
+    <h3>Trouvez le topo sur la base de son titre ou de sa description:</h3>
+    <form autocomplete="off" id="searchTopoForm" method="get" th:action="@{/topos}" th:object="${recherche}">
         <div class="d-flex flex-wrap">
             <div class="flex-fill">
                 <div class="input-group" style="min-width: 10em">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="t01">Pays</span>
+                        <span class="input-group-text" id="t01">Titre ou description</span>
                     </div>
-                    <input class="form-control" id="pays" name="pays" th:value="*{pays}" type="text">
+                    <input class="form-control" id="titre" name="titre" th:value="*{titre}" type="text">
                 </div>
             </div>
 
             <div class="flex-fill">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="t02">Nom du site</span>
+                        <span class="input-group-text" id="t02">Site associé</span>
                     </div>
                     <input class="form-control" id="site" name="site" th:value="*{site}" type="text">
                 </div>
             </div>
 
-            <div class="flex-fill">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="niveau">Difficulté Max</label>
-                    </div>
-                    <select class="custom-select" id="niveau" name="niveau" th:field="*{niveau}">
-                        <option value="0">Votre choix...</option>
-                        <option value="1">3 - 5b (simple)</option>
-                        <option value="2">5b+ - 6a (moyen)</option>
-                        <option value="3">6a+ - 7a (difficile)</option>
-                        <option value="4">7b - 9b (expert)</option>
-                    </select>
-                </div>
-            </div>
         </div>
         <h6>&nbsp;</h6>
         <button class="btn btn-primary" type="submit">Rechercher</button>
-        <button class="btn btn-secondary" onclick="clearSearchSiteForm()" value="Effacer les critères">Effacer les
+        <button class="btn btn-secondary" onclick="clearSearchTopoForm()" value="Effacer les critères">Effacer les
             critères
         </button>
 
         <p>&nbsp;</p>
-        <h3 th:if="${sites.size()}==0">Aucun site ne correspond à ces critères...</h3>
+        <h3 th:if="${topos.size()}==0">Aucun topo ne correspond à ces critères...</h3>
 
         <nav aria-label="Page navigation example" th:if="${nav}!=null">
             <ul class="pagination">
@@ -76,32 +62,14 @@
             </ul>
         </nav>
 
-        <th:block th:each="site : ${sites}">
+        <th:block th:each="topo : ${topos}">
             <div class="card" style="width: 100%">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${site.pays} + ' - ' +  ${site.nom}">FRANCE - Vallée de
-                        Chamonix</h5>
-                    <img alt="Card image cap" class="float-left" src="mont-blanc_160x160.jpg"
-                         style="padding-right:8px" th:src="${site.image2}">
-                    <p class="card-text" th:text="${site.description}">Some quick example text to build on the card
-                        title
-                        and make up the bulk of the card's
-                        content.</p>
+                    <h5 class="card-title" th:text="${topo.titre}">Titre du livre</h5>
+                    <img alt="Card image cap" class="float-left" src="topo_1.jpg" style="padding-right:8px" th:src="${topo.image1}">
+                    <p class="card-text" th:text="${topo.description}">Descritpion du livre</p>
                     <div>
-                        <button class="btn btn-secondary" style="margin:1px" type="button">
-                            Hauteur <span class="badge badge-light" th:text="${site.hauteur} + 'm'"></span>
-                        </button>
-                        <button class="btn btn-secondary" style="margin:1px" type="button">
-                            Difficulté <span class="badge badge-light"
-                                             th:text="${site.cotationMin} + ' à ' + ${site.cotationMax}"></span>
-                        </button>
-                        <button class="btn btn-secondary" style="margin:1px" type="button">
-                            Nb de voies <span class="badge badge-light" th:text="${site.nbDeVoies}"></span>
-                        </button>
-                        <button class="btn btn-secondary" style="margin:1px" type="button">
-                            Orientation <span class="badge badge-light" th:text="${site.orientation}"></span>
-                        </button>
-                        <a class="btn btn-primary" href="#" th:href="@{site(id=${site.id})}">En savoir plus</a>
+                        <a class="btn btn-primary" href="#" th:href="@{topo(id=${topo.id})}">Réserver</a>
                     </div>
                 </div>
             </div>
@@ -136,10 +104,10 @@
 <script>
     var countries;
     $.ajax({
-        url: "pays", success: function (result) {
+        url: "sujetTopo", success: function (result) {
             console.log(result);
             countries = result;
-            autocompleteIfContains(document.getElementById("pays"), countries);
+            autocompleteIfContains(document.getElementById("titre"), countries);
         }
     });
     var siteNames;

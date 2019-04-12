@@ -7,13 +7,16 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import sam.ocr.escalade.service.VertigoUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private VertigoUserDetailsService userDetailsService;
 
     /*
     @Autowired
@@ -49,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/**", "/sample", "/about").permitAll()
+                .antMatchers("/", "/**", "/sample", "/about", "/h2/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -69,8 +72,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .rememberMe();
     }
 
-    @Autowired
-    private UserDetailsService userDetailsService;
 
     @Bean
     public DaoAuthenticationProvider authProvider() {

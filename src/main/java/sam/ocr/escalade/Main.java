@@ -9,16 +9,13 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import sam.ocr.escalade.model.Privilege;
-import sam.ocr.escalade.model.Role;
-import sam.ocr.escalade.model.User;
 import sam.ocr.escalade.repository.PrivilegeRepository;
 import sam.ocr.escalade.repository.RoleRepository;
 import sam.ocr.escalade.repository.UserRepository;
 
 import java.util.Properties;
 
-@SpringBootApplication(scanBasePackages = {"sam.ocr.escalade"})
+@SpringBootApplication//(scanBasePackages = {"sam.ocr.escalade"})
 @EnableJpaRepositories(basePackages = {"sam.ocr.escalade"})
 public class Main extends SpringBootServletInitializer {
 
@@ -172,7 +169,8 @@ public class Main extends SpringBootServletInitializer {
             log.info("");
         };
         */
-        return (args) -> {};
+        return (args) -> {
+        };
     }
 
 }
