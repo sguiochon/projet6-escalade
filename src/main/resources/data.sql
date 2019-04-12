@@ -170,6 +170,13 @@ WHERE id=7;
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
 VALUES (hibernate_sequence.nextval, '6a Max Dauphiné', 'Une sélection d’escalades de 4+ à 6a en Dauphiné', '', 'libre', 'topo_1.jpg', 3);
 
+INSERT INTO topo_sites (topo_id, sites_id)
+VALUES (1, 1);
+
+INSERT INTO topo_sites (topo_id, sites_id)
+VALUES (1, 2);
+
+
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
 VALUES (hibernate_sequence.nextval, 'Avignon Soleil', 'Une sélection d’escalades de 4+ à 6a en Dauphiné', '', 'libre', 'topo_2.jpg', 3);
 

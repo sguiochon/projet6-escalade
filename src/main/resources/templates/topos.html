@@ -9,9 +9,8 @@
 <div class="container">
     <p>&nbsp;</p>
     <p>&nbsp;</p>
-    <h1>Pour préparer vos prochaines sorties, rien de tel qu'un topo!</h1>
-
-    <h3>Trouvez le topo sur la base de son titre ou de sa description:</h3>
+    <h1>Pour préparer vos prochaines sorties, trouvez le bon topo!</h1>
+    <h3>Recherchez le topo à partir de son titre ou le site qu'il décrit:</h3>
     <form autocomplete="off" id="searchTopoForm" method="get" th:action="@{/topos}" th:object="${recherche}">
         <div class="d-flex flex-wrap">
             <div class="flex-fill">
@@ -68,6 +67,16 @@
                     <h5 class="card-title" th:text="${topo.titre}">Titre du livre</h5>
                     <img alt="Card image cap" class="float-left" src="topo_1.jpg" style="padding-right:8px" th:src="${topo.image1}">
                     <p class="card-text" th:text="${topo.description}">Descritpion du livre</p>
+
+                    <div th:if="${topo.sites.size()}!=0">
+                        <div th:each="site : ${topo.sites}" th:text="${site.nom}">
+
+
+                        </div>
+
+                    </div>
+
+                    <p th:text="${topo.sites.size()}"></p>
                     <div>
                         <a class="btn btn-primary" href="#" th:href="@{topo(id=${topo.id})}">Réserver</a>
                     </div>
