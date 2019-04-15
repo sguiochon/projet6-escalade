@@ -190,3 +190,13 @@ VALUES (hibernate_sequence.nextval, 'Envers des aiguilles', 'Les voies des Aigui
 
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
 VALUES (hibernate_sequence.nextval, 'Escalada en Castelion', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_8.jpg', 5);
+
+
+INSERT INTO topo_sites (topo_id, sites_id)
+VALUES (1, 1);
+
+INSERT INTO topo_sites (topo_id, sites_id)
+VALUES (1, 2);
+
+INSERT INTO topo_sites (topo_id, sites_id)
+VALUES (2, 3);
