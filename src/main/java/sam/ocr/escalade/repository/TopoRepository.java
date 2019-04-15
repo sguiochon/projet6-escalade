@@ -11,4 +11,8 @@ public interface TopoRepository extends JpaRepository<Topo, Integer> {
 
     Page<Topo> findByTitreContainsOrDescriptionContains(Pageable page, String titre, String description);
 
+    Page<Topo> findDistinctBySitesNomContains(Pageable page, String siteNom);
+
+    Page<Topo> findDistinctByTitreContainsOrDescriptionContainsAndSitesNomContains(Pageable page, String titre, String description, String site);
+
 }

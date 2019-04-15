@@ -26,18 +26,25 @@ public class TopoService {
         this.topoRepository = topoRepository;
     }
 
-    public Page<Topo> getTopos(int pageSize, int pageNumber, String paramTitre) {
+    public Page<Topo> getTopos(int pageSize, int pageNumber, String paramTitre, String paramSite) {
 
         String titre = (paramTitre == null || paramTitre.equals("")) ? null : paramTitre;
+        String site = (paramSite == null || paramSite.equals("")) ? null : paramSite;
 
-        log.debug("### Searching 'Topo' matching : Titre=" + titre);
+        log.debug("### Searching 'Topo' matching : Titre=" + titre + ", Site=" + site);
 
         PageRequest pageIn = PageRequest.of(pageNumber, pageSize);
 
-        if (titre == null)
+        if (titre == null && site == null)
             return topoRepository.findAllByOrderByTitreAsc(pageIn);
-        else
+
+        if (site == null && titre != null)
             return topoRepository.findByTitreContainsOrDescriptionContains(pageIn, titre, titre);
+
+        if (site !=null && titre == null)
+            return topoRepository.findDistinctBySitesNomContains(pageIn, site);
+
+        return topoRepository.findDistinctByTitreContainsOrDescriptionContainsAndSitesNomContains(pageIn, titre, titre, site);
 
     }
 

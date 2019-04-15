@@ -212,7 +212,11 @@ function clearSearchSiteForm(){
     document.getElementById('pays').value='';
     document.getElementById('site').value='';
     document.getElementById('niveau').value="0";
-    console.log("clearing form");
+}
+
+function clearSearchTopoForm(){
+    document.getElementById('site').value='';
+    document.getElementById('titre').value='';
 }
 
 /* Map generation */

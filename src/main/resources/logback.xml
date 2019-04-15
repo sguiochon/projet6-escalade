@@ -11,7 +11,7 @@
 	<logger name="sam.ocr.escalade" level="DEBUG" />
 
 	<!-- to view SQL statements, set to DEBUG -->
-	<logger name="org.hibernate.SQL" level="DEBUG" />
+	<logger name="org.hibernate.SQL" level="INFO" />
 
 	<logger name="org.springframework" level="INFO"/>
 	<logger name="org.springframework.jpa" level="DEBUG" additivity="false"/>

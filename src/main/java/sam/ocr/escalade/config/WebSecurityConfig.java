@@ -52,8 +52,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/**", "/sample", "/about", "/h2/**").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/", "/sites", "/sample", "/topos", "/*.jpg", "/*.png", "/*.css", "/*.js").permitAll()
+                .antMatchers("/resa").hasAuthority("USER")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                     .formLogin()
@@ -69,7 +70,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .deleteCookies("JSESSIONID")
                     .permitAll()
                 .and()
-                    .rememberMe();
+                    .rememberMe()
+                .and().csrf().disable();
     }
 
 

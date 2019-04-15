@@ -1,5 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="header :: copy"></head>
@@ -45,17 +46,20 @@
         <nav aria-label="Page navigation example" th:if="${nav}!=null">
             <ul class="pagination">
                 <li class="page-item">
-                    <button class="page-link" name="p" th:type="${nav.previous}==null?'text':'submit'" th:value="${nav.previous}==null?0:${nav.previous.number}"
+                    <button class="page-link" name="p" th:type="${nav.previous}==null?'text':'submit'"
+                            th:value="${nav.previous}==null?0:${nav.previous.number}"
                             type="submit" value="0">&laquo;
                     </button>
                 </li>
                 <li class="page-item" th:each="item : ${nav.items}">
                     <button class="page-link" name="p"
-                            th:class="${item.isCurrent()}==true?'btn btn-primary':'page-link'" th:text="${item.number}+1" th:value="${item.number}" type="submit"
+                            th:class="${item.isCurrent()}==true?'btn btn-primary':'page-link'"
+                            th:text="${item.number}+1" th:value="${item.number}" type="submit"
                             value="1"></button>
                 </li>
                 <li class="page-item">
-                    <button class="page-link" name="p" th:type="${nav.next}==null?'text':'submit'" th:value="${nav.next}==null?0:${nav.next.number}"
+                    <button class="page-link" name="p" th:type="${nav.next}==null?'text':'submit'"
+                            th:value="${nav.next}==null?0:${nav.next.number}"
                             type="submit" value="1">&raquo;
                     </button>
                 </li>
@@ -64,22 +68,41 @@
 
         <div class="d-flex flex-wrap">
             <th:block th:each="topo : ${topos}">
-                <div class="card flex-fill" style="max-width: 45em; margin: 2em">
-                    <div class="card-body">
+                <div class="card" style="width: 20em; margin: 1em">
+                    <div class="card-header">
                         <h5 class="card-title" th:text="${topo.titre}">Titre du livre</h5>
-                        <img alt="Card image cap" class="float-left" src="topo_1.jpg" style="padding-right:8px" th:src="${topo.image1}">
-                        <p class="card-text" th:text="${topo.description}">Descritpion du livre</p>
+                    </div>
+                    <div class="card-body">
 
-                        <div th:if="${topo.sites.size()}!=0">
-                            <h6>Sites associés</h6>
-                            <div th:each="site : ${topo.sites}">
-                                <span th:text="${site.pays} + ' - ' + ${site.nom}"></span>
-                                <a class="btn btn-primary" href="#" th:href="@{site(id=${site.id})}">Voir</a>
+                        <div class="d-flex flex-column">
+                            <div class="p-2">
+                                <img alt="Card image cap" class="float-left" src="topo_1.jpg" style="padding-right:8px"
+                                     th:src="${topo.image1}">
+                                <p class="card-text" th:text="${topo.description}">Descritpion du livre</p>
                             </div>
-                        </div>
-
-                        <div>
-                            <a class="btn btn-primary" href="#" th:href="@{topo(id=${topo.id})}">Réserver</a>
+                            <div class="p-2">
+                                <div th:if="${topo.sites.size()}!=0">
+                                    <h6>Sites associés</h6>
+                                    <div class="d-flex" th:each="site : ${topo.sites}">
+                                        <div class="mr-autoflex-fill"><span
+                                                th:text="${site.pays} + ' - ' + ${site.nom}"></span></div>
+                                        <div class="ml-auto"><a class="btn btn-outline-primary btn-sm" href="#"
+                                                                th:href="@{site(id=${site.id})}">Voir</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-2">
+                                <div sec:authorize="isAuthenticated()">
+                                    <button class="btn btn-primary" data-target="#reservationModal" data-toggle="modal"
+                                            th:data-topoid="${topo.id}" type="button">Réserver
+                                    </button>
+                                </div>
+                                <div sec:authorize="!isAuthenticated()">
+                                    <button data-placement="top" data-toggle="tooltip" disabled
+                                            title="Connectez-vous pour réserver un topo" type="button">Réserver
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -90,17 +113,20 @@
         <nav aria-label="Page navigation example" th:if="${nav}!=null">
             <ul class="pagination">
                 <li class="page-item">
-                    <button class="page-link" name="p" th:type="${nav.previous}==null?'text':'submit'" th:value="${nav.previous}==null?0:${nav.previous.number}"
+                    <button class="page-link" name="p" th:type="${nav.previous}==null?'text':'submit'"
+                            th:value="${nav.previous}==null?0:${nav.previous.number}"
                             type="submit" value="0">&laquo;
                     </button>
                 </li>
                 <li class="page-item" th:each="item : ${nav.items}">
                     <button class="page-link" name="p"
-                            th:class="${item.isCurrent()}==true?'btn btn-primary':'page-link'" th:text="${item.number}+1" th:value="${item.number}" type="submit"
+                            th:class="${item.isCurrent()}==true?'btn btn-primary':'page-link'"
+                            th:text="${item.number}+1" th:value="${item.number}" type="submit"
                             value="1"></button>
                 </li>
                 <li class="page-item">
-                    <button class="page-link" name="p" th:type="${nav.next}==null?'text':'submit'" th:value="${nav.next}==null?0:${nav.next.number}"
+                    <button class="page-link" name="p" th:type="${nav.next}==null?'text':'submit'"
+                            th:value="${nav.next}==null?0:${nav.next.number}"
                             type="submit" value="1">&raquo;
                     </button>
                 </li>
@@ -108,11 +134,61 @@
         </nav>
 
     </form>
-
 </div>
 
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="reservationModal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Réservation du Topo</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <input class="form-control" id="recipient-name" name="id" type="hidden">
+                <div class="form-group">
+                    <label class="col-form-label" for="message-text">Confirmez-vous la réservation de ce topoguide?</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button">Annuler</button>
+                <button class="btn btn-primary" type="button" onclick="reserverTopo();">Confirmer</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
+
+    function reserverTopo(){
+        var id = $("#reservationModal").find("#recipient-name").val();
+        console.log("+++>" + id);
+        $.ajax({
+            url: 'resa',
+            contentType: 'application/json',
+            dataType: 'text',
+            data: '{"id": "' + id + '"}',
+            type: 'POST',
+            error: function(){console.log("erreur....")},
+            success: function (result) {
+                $("#reservationModal").modal("hide");
+                console.log("reservation effectuee...." + result);
+                location.reload();
+            }
+        });
+    }
+
+    $('#reservationModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var recipient = button.data('topoid'); // Extract info from data-* attributes
+        var modal = $(this);
+        modal.find('.modal-title').text('New message to ' + recipient);
+        modal.find('.modal-body input').val(recipient)
+    });
+
     var countries;
     $.ajax({
         url: "sujetTopo", success: function (result) {
