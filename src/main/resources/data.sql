@@ -200,10 +200,4 @@ VALUES (hibernate_sequence.nextval, 'Escalada en Castelion', 'Une s√©lection d‚Ä
 
 
 INSERT INTO topo_sites (topo_id, sites_id)
-VALUES (1, 1);
-
-INSERT INTO topo_sites (topo_id, sites_id)
-VALUES (1, 2);
-
-INSERT INTO topo_sites (topo_id, sites_id)
 VALUES (2, 3);
