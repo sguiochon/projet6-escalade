@@ -17,7 +17,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
-@Profile("dev")
 public class FileStorageService implements StorageService {
 
     ServletContext context;

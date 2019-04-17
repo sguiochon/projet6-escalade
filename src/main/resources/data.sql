@@ -168,7 +168,7 @@ WHERE id=7;
 
 
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id, emprunteur_id)
-VALUES (hibernate_sequence.nextval, '6a Max Dauphiné', 'Une sélection d’escalades de 4+ à 6a en Dauphiné', '', 'libre', 'topo_1.jpg', 3, 4);
+VALUES (1, '6a Max Dauphiné', 'Une sélection d’escalades de 4+ à 6a en Dauphiné', '', 'libre', 'topo_1.jpg', 3, 4);
 
 INSERT INTO topo_sites (topo_id, sites_id)
 VALUES (1, 1);
@@ -178,26 +178,28 @@ VALUES (1, 2);
 
 
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
-VALUES (hibernate_sequence.nextval, 'Avignon Soleil', 'Une sélection d’escalades de 4+ à 6a en Dauphiné', '', 'libre', 'topo_2.jpg', 3);
+VALUES (2, 'Avignon Soleil', 'Une sélection d’escalades de 4+ à 6a en Dauphiné', '', 'libre', 'topo_2.jpg', 3);
 
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
-VALUES (hibernate_sequence.nextval, 'El Pirineo Occidental', 'Une sélection d’escalades deans les pyrénées occidentales', '', 'libre', 'topo_3.jpg', 3);
+VALUES (3, 'El Pirineo Occidental', 'Une sélection d’escalades dans les pyrénées occidentales', '', 'libre', 'topo_3.jpg', 3);
 
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
-VALUES (hibernate_sequence.nextval, 'Corsica Bloc', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_4.jpg', 4);
+VALUES (4, 'Corsica Bloc', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_4.jpg', 4);
 
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id, emprunteur_id)
-VALUES (hibernate_sequence.nextval, 'Escalar en España', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_5.jpg', 4, 5);
+VALUES (5, 'Escalar en España', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_5.jpg', 4, 5);
 
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
-VALUES (hibernate_sequence.nextval, 'Dolomites', 'Une sélection d’escalades dans les Dolomites', '', 'libre', 'topo_6.jpg', 4);
+VALUES (6, 'Dolomites', 'Une sélection d’escalades dans les Dolomites', '', 'libre', 'topo_6.jpg', 4);
 
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
-VALUES (hibernate_sequence.nextval, 'Envers des aiguilles', 'Les voies des Aiguilles Rouges', '', 'libre', 'topo_7.jpg', 5);
+VALUES (7, 'Envers des aiguilles', 'Les voies des Aiguilles Rouges', '', 'libre', 'topo_7.jpg', 5);
 
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
-VALUES (hibernate_sequence.nextval, 'Escalada en Castelion', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_8.jpg', 5);
+VALUES (8, 'Escalada en Castelion', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_8.jpg', 5);
 
 
 INSERT INTO topo_sites (topo_id, sites_id)
 VALUES (2, 3);
+
+ALTER SEQUENCE hibernate_sequence RESTART WITH 123;
