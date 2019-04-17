@@ -11,22 +11,27 @@ import sam.ocr.escalade.config.ApplicationConfig;
 import sam.ocr.escalade.dto.NavDTO;
 import sam.ocr.escalade.dto.RechercheTopoDTO;
 import sam.ocr.escalade.model.Topo;
+import sam.ocr.escalade.repository.UserRepository;
 import sam.ocr.escalade.service.TopoService;
 
 import java.security.Principal;
 
 @Controller
-public class TopoController extends TableNavigationHelper{
+public class TopoController {
 
     Logger logger = LoggerFactory.logger(TopoController.class);
 
     private TopoService topoService;
 
+    private ApplicationConfig applicationConfig;
+
+    private TableNavigationHelper navHelper;
 
     @Autowired
-    public TopoController(TopoService topoService, ApplicationConfig applicationConfig) {
-        super(applicationConfig);
+    public TopoController(TopoService topoService, ApplicationConfig applicationConfig, TableNavigationHelper navHelper) {
         this.topoService = topoService;
+        this.applicationConfig = applicationConfig;
+        this.navHelper = navHelper;
     }
 
     @RequestMapping("/topos")
@@ -41,7 +46,7 @@ public class TopoController extends TableNavigationHelper{
 
         NavDTO nav = null;
         if (page.getTotalPages() != 0)
-            nav = buildNavInfo(currentPage, page.getTotalPages());
+            nav = navHelper.buildNavInfo(currentPage, page.getTotalPages());
 
         model.addAttribute("nav", nav);
         model.addAttribute("recherche", recherche);
@@ -51,9 +56,10 @@ public class TopoController extends TableNavigationHelper{
 
     @RequestMapping(value="/resa", method = RequestMethod.POST)
     @ResponseBody
-    public String reserverTopo(@RequestBody String id, Principal principal){
-        logger.info("+++++++ > Principal name: " + principal.getName() + ", id: " + id);
-        
+    public String reserverTopo( Principal principal, @RequestBody Integer id){
+        logger.info("oooooooo+++++++/////////// > Principal name: " + principal.getName() + ", id: " + id);
+
+        topoService.reserveTopo(principal.getName(), id);
 
         return "";
     }

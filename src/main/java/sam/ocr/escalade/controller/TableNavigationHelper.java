@@ -1,15 +1,17 @@
 package sam.ocr.escalade.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import sam.ocr.escalade.config.ApplicationConfig;
 import sam.ocr.escalade.dto.NavDTO;
 
+@Component
 public class TableNavigationHelper {
 
     protected ApplicationConfig applicationConfig;
 
     @Autowired
-    public TableNavigationHelper(ApplicationConfig applicationConfig){
+    public TableNavigationHelper(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
     }
 

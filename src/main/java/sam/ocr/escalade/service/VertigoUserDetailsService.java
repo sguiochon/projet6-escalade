@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Qualifier("userDetailsService")
@@ -48,12 +49,12 @@ public class VertigoUserDetailsService implements UserDetailsService {
         //}
 
         try {
-            final User user = userRepository.findByEmailIgnoreCase(email);
-            if (user == null) {
+            final Optional<User> user = userRepository.findByEmailIgnoreCase(email);
+            if (!user.isPresent()) {
                 throw new UsernameNotFoundException("No user found with username: " + email);
             }
 
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, getAuthorities(user.getRoles()));
+            return new org.springframework.security.core.userdetails.User(user.get().getEmail(), user.get().getPassword(), user.get().isEnabled(), true, true, true, getAuthorities(user.get().getRoles()));
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }

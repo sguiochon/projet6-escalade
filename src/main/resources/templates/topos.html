@@ -43,7 +43,7 @@
         <p>&nbsp;</p>
         <h3 th:if="${topos.size()}==0">Aucun topo ne correspond à ces critères...</h3>
 
-        <nav aria-label="Page navigation example" th:if="${nav}!=null">
+        <nav aria-label="Page navigation " th:if="${nav}!=null">
             <ul class="pagination">
                 <li class="page-item">
                     <button class="page-link" name="p" th:type="${nav.previous}==null?'text':'submit'"
@@ -76,7 +76,7 @@
 
                         <div class="d-flex flex-column">
                             <div class="p-2">
-                                <img alt="Card image cap" class="float-left" src="topo_1.jpg" style="padding-right:8px"
+                                <img alt="Card image cap" class="float-left" src="topo_1.jpg" style="padding-right:8px; max-width: 120px; max-height: 175px"
                                      th:src="${topo.image1}">
                                 <p class="card-text" th:text="${topo.description}">Descritpion du livre</p>
                             </div>
@@ -92,14 +92,22 @@
                                 </div>
                             </div>
                             <div class="p-2">
-                                <div sec:authorize="isAuthenticated()">
-                                    <button class="btn btn-primary" data-target="#reservationModal" data-toggle="modal"
-                                            th:data-topoid="${topo.id}" type="button">Réserver
-                                    </button>
+                                <div th:if="${topo.emprunteur}==null">
+                                    <div sec:authorize="isAuthenticated()">
+                                        <button class="btn btn-primary" data-target="#reservationModal"
+                                                data-toggle="modal"
+                                                th:data-topoid="${topo.id}" th:data-topotitle="${topo.titre}" type="button">Réserver
+                                        </button>
+                                    </div>
+                                    <div sec:authorize="!isAuthenticated()">
+                                        <button class="btn btn-secondary" data-placement="top" data-toggle="tooltip"
+                                                title="Connectez-vous pour réserver un topo" type="button">Réserver
+                                        </button>
+                                    </div>
                                 </div>
-                                <div sec:authorize="!isAuthenticated()">
-                                    <button data-placement="top" data-toggle="tooltip" disabled
-                                            title="Connectez-vous pour réserver un topo" type="button">Réserver
+                                <div th:if="${topo.emprunteur}!=null">
+                                    <button class="btn btn-secondary" data-placement="top" data-toggle="tooltip"
+                                            title="Ce topoguide est actuellement utilisé par un membre du site" type="button">Déjà réservé
                                     </button>
                                 </div>
                             </div>
@@ -110,7 +118,7 @@
             </th:block>
         </div>
 
-        <nav aria-label="Page navigation example" th:if="${nav}!=null">
+        <nav aria-label="Page navigation" th:if="${nav}!=null">
             <ul class="pagination">
                 <li class="page-item">
                     <button class="page-link" name="p" th:type="${nav.previous}==null?'text':'submit'"
@@ -148,14 +156,15 @@
                 </button>
             </div>
             <div class="modal-body">
-                    <input class="form-control" id="recipient-name" name="id" type="hidden">
+                <input class="form-control" id="recipient-name" name="id" type="hidden">
                 <div class="form-group">
-                    <label class="col-form-label" for="message-text">Confirmez-vous la réservation de ce topoguide?</label>
+                    <label class="col-form-label" for="message-text">Confirmez-vous la réservation de ce
+                        topoguide?</label>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" type="button">Annuler</button>
-                <button class="btn btn-primary" type="button" onclick="reserverTopo();">Confirmer</button>
+                <button class="btn btn-primary" onclick="reserverTopo();" type="button">Confirmer</button>
             </div>
         </div>
     </div>
@@ -163,16 +172,18 @@
 
 <script>
 
-    function reserverTopo(){
+    function reserverTopo() {
         var id = $("#reservationModal").find("#recipient-name").val();
         console.log("+++>" + id);
         $.ajax({
             url: 'resa',
             contentType: 'application/json',
             dataType: 'text',
-            data: '{"id": "' + id + '"}',
+            data: id,
             type: 'POST',
-            error: function(){console.log("erreur....")},
+            error: function () {
+                console.log("erreur....")
+            },
             success: function (result) {
                 $("#reservationModal").modal("hide");
                 console.log("reservation effectuee...." + result);
@@ -183,10 +194,15 @@
 
     $('#reservationModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
-        var recipient = button.data('topoid'); // Extract info from data-* attributes
+        var topoId = button.data('topoid'); // Extract info from data-* attributes
+        var topoTitle = button.data('topotitle');
         var modal = $(this);
-        modal.find('.modal-title').text('New message to ' + recipient);
-        modal.find('.modal-body input').val(recipient)
+        modal.find('.modal-title').text(topoTitle);
+        modal.find('.modal-body input').val(topoId)
+    });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
     });
 
     var countries;

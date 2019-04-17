@@ -1,6 +1,7 @@
 package sam.ocr.escalade.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -9,21 +10,36 @@ public class Topo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
     private String titre;
-
     @Column(columnDefinition = "TEXT")
     private String description;
-
     private String nomRessource;
     @Enumerated(value = EnumType.STRING)
     private TopoStatut statut;
     @ManyToOne
     private User preteur;
+    @ManyToOne
+    private User emprunteur;
+    private Date dateEmprunt;
     @ManyToMany
     private List<Site> sites;
-
     private String image1;
+
+    public User getEmprunteur() {
+        return emprunteur;
+    }
+
+    public void setEmprunteur(User emprunteur) {
+        this.emprunteur = emprunteur;
+    }
+
+    public Date getDateEmprunt() {
+        return dateEmprunt;
+    }
+
+    public void setDateEmprunt(Date dateEmprunt) {
+        this.dateEmprunt = dateEmprunt;
+    }
 
     public String getImage1() {
         return image1;

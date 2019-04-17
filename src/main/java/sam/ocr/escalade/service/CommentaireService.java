@@ -48,15 +48,15 @@ public class CommentaireService {
             return false;
         }
 
-        User user = userRepository.findByEmailIgnoreCase(principalName);
-        if (user==null){
+        Optional<User> user = userRepository.findByEmailIgnoreCase(principalName);
+        if (!user.isPresent()){
             log.error("Invalid user principal (email address): " + principalName);
             return false;
         }
 
         Commentaire commentaire = new Commentaire();
         commentaire.setContenu(content);
-        commentaire.setAuteur(user);
+        commentaire.setAuteur(user.get());
         commentaire.setCreationDate(new Date());
 
         Commentaire savedCommentaire = commentaireRepository.save(commentaire);
@@ -66,7 +66,7 @@ public class CommentaireService {
         siteDescription.addCommentaire(savedCommentaire);
 
         siteDescriptionRepository.save(siteDescription);
-        ApplicationEvent event = new OnCommentSubmissionEvent(this, 1, "Salut", user.getFirstName()+ " " + user.getLastName());
+        ApplicationEvent event = new OnCommentSubmissionEvent(this, 1, "Salut", user.get().getFirstName()+ " " + user.get().getLastName());
         eventPublisher.publishEvent(event);
         return true;
     }

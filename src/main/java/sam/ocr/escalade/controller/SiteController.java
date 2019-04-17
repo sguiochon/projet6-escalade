@@ -24,7 +24,7 @@ import java.util.Optional;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
-public class SiteController extends TableNavigationHelper{
+public class SiteController {
 
     private Logger logger = LoggerFactory.logger(SiteController.class);
 
@@ -32,12 +32,16 @@ public class SiteController extends TableNavigationHelper{
 
     private CommentaireService commentaireService;
 
+    private ApplicationConfig applicationConfig;
+
+    private TableNavigationHelper navHelper;
 
     @Autowired
-    public SiteController(SiteService siteService, CommentaireService commentaireService, ApplicationConfig applicationConfig) {
-        super(applicationConfig);
+    public SiteController(SiteService siteService, CommentaireService commentaireService, ApplicationConfig applicationConfig, TableNavigationHelper navHelper) {
         this.siteService = siteService;
         this.commentaireService = commentaireService;
+        this.applicationConfig = applicationConfig;
+        this.navHelper = navHelper;
     }
 
     @RequestMapping("/")
@@ -63,7 +67,7 @@ public class SiteController extends TableNavigationHelper{
 
         NavDTO nav = null;
         if (page.getTotalPages() != 0)
-            nav = buildNavInfo(currentPage, page.getTotalPages());
+            nav = navHelper.buildNavInfo(currentPage, page.getTotalPages());
 
         model.addAttribute("nav", nav);
         model.addAttribute("recherche", recherche);

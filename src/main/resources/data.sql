@@ -42,7 +42,7 @@ VALUES (5, 1);
 
 
 INSERT INTO commentaire (id, contenu, creation_date, auteur_id)
-VALUES (100, 'Super site. Je vous le recommande! J y suis allé l année dernière et c etait genial!', '2019-01-10 10:00:00', 3);
+VALUES (100, 'Super site. Je vous le recommande! J’y suis allé l’année dernière et c’était genial!', '2019-01-10 10:00:00', 3);
 
 INSERT INTO commentaire (id, contenu, creation_date, auteur_id)
 VALUES (200, 'Je confirme!', '2019-01-01 10:00:00', 3);
@@ -167,8 +167,8 @@ contenu3='Ce n’est pas ce qui manque dans la vallée de Chamonix. Campings, h�
 WHERE id=7;
 
 
-INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
-VALUES (hibernate_sequence.nextval, '6a Max Dauphiné', 'Une sélection d’escalades de 4+ à 6a en Dauphiné', '', 'libre', 'topo_1.jpg', 3);
+INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id, emprunteur_id)
+VALUES (hibernate_sequence.nextval, '6a Max Dauphiné', 'Une sélection d’escalades de 4+ à 6a en Dauphiné', '', 'libre', 'topo_1.jpg', 3, 4);
 
 INSERT INTO topo_sites (topo_id, sites_id)
 VALUES (1, 1);
@@ -186,8 +186,8 @@ VALUES (hibernate_sequence.nextval, 'El Pirineo Occidental', 'Une sélection d�
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
 VALUES (hibernate_sequence.nextval, 'Corsica Bloc', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_4.jpg', 4);
 
-INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
-VALUES (hibernate_sequence.nextval, 'Escalar en España', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_5.jpg', 4);
+INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id, emprunteur_id)
+VALUES (hibernate_sequence.nextval, 'Escalar en España', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_5.jpg', 4, 5);
 
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
 VALUES (hibernate_sequence.nextval, 'Dolomites', 'Une sélection d’escalades dans les Dolomites', '', 'libre', 'topo_6.jpg', 4);

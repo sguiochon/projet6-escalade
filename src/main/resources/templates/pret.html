@@ -1,0 +1,129 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: copy"></head>
+
+<body>
+
+<div class="container">
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <div class="jumbotron">
+        <p class="lead">Partagez vos <strong>topoguides</strong> avec la communauté!</p>
+        <hr class="my-4">
+        <p>En mettant à disposition des autres membres du site vos propres topoguides, vous contribuerez activement à
+            l'animation de notre communauté.</p>
+        <p><strong>Merci d'avance au nom de tous!</strong></p>
+    </div>
+
+    <h3>Partagez un nouveau topo </h3>
+    <form autocomplete="off" enctype="multipart/form-data" id="pret" method="post" th:action="@{/pret}">
+        <div class="form-group">
+            <label for="titre">Titre</label>
+            <input aria-describedby="emailHelp" class="form-control" id="titre" name="titre" placeholder="Indiquez le titre du topo"
+                   type="text">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input class="form-control" id="description" name="description" placeholder="Description en quelques mots"
+                   type="text">
+        </div>
+
+        <div class="form-group">
+            <label for="formControlFile1">Image associée (format jpg n'excédant pas 50ko, 120px x 175px)</label>
+            <input class="form-control-file" id="formControlFile1" type="file" name="file">
+        </div>
+
+        <button class="btn btn-primary" type="submit">Enregistrer</button>
+    </form>
+
+    <p>&nbsp;</p>
+    <hr class="my-4">
+    <div th:if="${prets.size()}!=0">
+        <h3>Vos topos déjà partagés</h3>
+        <form autocomplete="off" id="prets" method="get" th:action="@{/pret}" th:object="${prets}">
+            <nav aria-label="Page navigation " th:if="${nav}!=null">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <button class="page-link" name="p" th:type="${nav.previous}==null?'text':'submit'"
+                                th:value="${nav.previous}==null?0:${nav.previous.number}"
+                                type="submit" value="0">&laquo;
+                        </button>
+                    </li>
+                    <li class="page-item" th:each="item : ${nav.items}">
+                        <button class="page-link" name="p"
+                                th:class="${item.isCurrent()}==true?'btn btn-primary':'page-link'"
+                                th:text="${item.number}+1" th:value="${item.number}" type="submit"
+                                value="1"></button>
+                    </li>
+                    <li class="page-item">
+                        <button class="page-link" name="p" th:type="${nav.next}==null?'text':'submit'"
+                                th:value="${nav.next}==null?0:${nav.next.number}"
+                                type="submit" value="1">&raquo;
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Emprunteur</th>
+                    <th scope="col">Date emprunt</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="pret : ${prets}">
+                    <td><img alt="Card image cap" class="float-left" src="topo_1.jpg" th:src="${pret.image1}" style="max-height: 87px; max-width: 60px"></td>
+                    <th scope="row" th:text="${pret.titre}"></th>
+                    <td th:text="${pret.description}">description</td>
+
+                    <th:block th:if="${pret.emprunteur}!=null">
+                        <td th:text="${pret.emprunteur.firstName} + ' ' + ${pret.emprunteur.lastName}">Mark</td>
+                        <td th:text="${pret.dateEmprunt}"></td>
+                    </th:block>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="modalLabel" class="modal fade" id="infoModal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Partage de Topo avec la communauté</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-form-label">message</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" type="button">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:if="${message}!=null" th:inline="javascript">
+console.log([[${message}]]);
+$('#infoModal').find('.col-form-label').text([[${message}]]);
+
+$('#infoModal').modal("show");
+
+</script>
+
+
+</body>
+</html>

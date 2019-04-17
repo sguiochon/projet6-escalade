@@ -8,10 +8,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import sam.ocr.escalade.config.ApplicationConfig;
 import sam.ocr.escalade.model.Topo;
+import sam.ocr.escalade.model.User;
 import sam.ocr.escalade.repository.TopoRepository;
+import sam.ocr.escalade.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TopoService {
@@ -20,10 +24,13 @@ public class TopoService {
 
     private TopoRepository topoRepository;
 
+    private UserRepository userRepository;
+
 
     @Autowired
-    public TopoService(TopoRepository topoRepository, ApplicationConfig applicationConfig) {
+    public TopoService(TopoRepository topoRepository, UserRepository userRepository, ApplicationConfig applicationConfig) {
         this.topoRepository = topoRepository;
+        this.userRepository = userRepository;
     }
 
     public Page<Topo> getTopos(int pageSize, int pageNumber, String paramTitre, String paramSite) {
@@ -56,5 +63,31 @@ public class TopoService {
             titresAndDescriptions.add(topo.getDescription());
         }
         return titresAndDescriptions;
+    }
+
+    public void reserveTopo(String emprunteurEmail, Integer topoId){
+        Optional<Topo> result = topoRepository.findById(topoId);
+        if (result.isPresent()){
+            Topo topo = result.get();
+            if (topo.getEmprunteur()!=null){
+                // Topo dejà emprunté... on ignore la demande de prêt
+                log.warn("Demande de réservation d'un topo (id=" + topoId + ") deja prêté à un utilisateur (email=" + topo.getEmprunteur().getEmail() + ") par email=" + emprunteurEmail);
+                return;
+            }
+            else{
+                Optional<User> resultUser = userRepository.findByEmailIgnoreCase(emprunteurEmail);
+                if (!resultUser.isPresent()){
+                    log.warn("Demande de réservation d'un topo (id=" + topoId + ") par un utilisateur inconnu: email=" + emprunteurEmail);
+                    return;
+                }
+                topo.setEmprunteur(resultUser.get());
+                topo.setDateEmprunt(new Date());
+                topoRepository.save(topo);
+            }
+        }
+        else{
+            log.warn("Demande de réservation d'un topo inexistant: id=" + topoId);
+        }
+
     }
 }
