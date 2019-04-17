@@ -128,13 +128,13 @@ function autocompleteIfContains(inp, arr) {
                 /*create a DIV element for each matching element:*/
                 b = document.createElement("DIV");
                 /*make the matching letters bold:*/
-                b.innerHTML = arr[i].substr(0, pos)
+                b.innerHTML = arr[i].substr(0, pos);
                 b.innerHTML += "<strong>" + arr[i].substr(pos, val.length) + "</strong>";
                 b.innerHTML += arr[i].substr(pos + val.length);
                 /*insert a input field that will hold the current array item's value:*/
                 b.innerHTML += "<input type='hidden' value='" + encodeURI(arr[i]) + "'>";
-                console.log(">>>>>>>>" + arr[i]);
-                console.log(">>>>>>>>" + encodeURI(arr[i]));
+                //console.log(">>>>>>>>" + arr[i]);
+                //console.log(">>>>>>>>" + encodeURI(arr[i]));
                 /*execute a function when someone clicks on the item value (DIV element):*/
                 b.addEventListener("click", function (e) {
                     /*insert the value for the autocomplete text field:*/
