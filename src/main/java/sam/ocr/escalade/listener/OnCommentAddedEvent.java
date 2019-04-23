@@ -1,15 +1,17 @@
-package sam.ocr.escalade.commentModeration;
+package sam.ocr.escalade.listener;
 
 import org.springframework.context.ApplicationEvent;
 
-public class OnCommentSubmissionEvent extends ApplicationEvent {
+public class OnCommentAddedEvent extends ApplicationEvent {
 
     private Integer commentaireId;
     private String commentaireContent;
     private String auteur;
+    private String appUrl;
 
-    public OnCommentSubmissionEvent(Object source, Integer commentaireId, String commentaireContent, String auteur) {
+    public OnCommentAddedEvent(Object source, String appUrl, Integer commentaireId, String commentaireContent, String auteur) {
         super(source);
+        this.appUrl = appUrl;
         this.auteur = auteur;
         this.commentaireContent = commentaireContent;
         this.commentaireId = commentaireId;
@@ -19,23 +21,18 @@ public class OnCommentSubmissionEvent extends ApplicationEvent {
         return commentaireId;
     }
 
-    public void setCommentaireId(Integer commentaireId) {
-        this.commentaireId = commentaireId;
+    public String getAppUrl() {
+        return appUrl;
     }
 
     public String getCommentaireContent() {
         return commentaireContent;
     }
 
-    public void setCommentaireContent(String commentaireContent) {
-        this.commentaireContent = commentaireContent;
-    }
 
     public String getAuteur() {
         return auteur;
     }
 
-    public void setAuteur(String auteur) {
-        this.auteur = auteur;
-    }
+
 }

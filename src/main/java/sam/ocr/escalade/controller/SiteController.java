@@ -17,6 +17,7 @@ import sam.ocr.escalade.model.Site;
 import sam.ocr.escalade.service.CommentaireService;
 import sam.ocr.escalade.service.SiteService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -84,13 +85,15 @@ public class SiteController {
     }
 
     @RequestMapping(value = "/commentaire/{siteId}", method = POST)
-    public String saveCommentaire(@PathVariable("siteId") String siteId, @RequestParam(name = "contenu", required = false) String contenu, RedirectAttributes redirectAttributes, Principal principal) {
+    public String saveCommentaire(@PathVariable("siteId") String siteId, @RequestParam(name = "contenu", required = false) String contenu, RedirectAttributes redirectAttributes, Principal principal, HttpServletRequest request) {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> site id: " + siteId);
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> contenu: " + contenu);
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> principal: " + principal.getClass().getName());
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> principal name: " + principal.getName());
 
-        commentaireService.submitCommentaire(Integer.parseInt(siteId), principal.getName(), contenu);
+        final String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
+        commentaireService.submitCommentaire(appUrl, Integer.parseInt(siteId), principal.getName(), contenu);
 
         redirectAttributes.addAttribute("id", siteId);
         return "redirect:/site?#commentaire";
@@ -131,7 +134,6 @@ public class SiteController {
         };
         return "sample";
     }*/
-
 
 
 }

@@ -39,15 +39,8 @@ public class VertigoUserDetailsService implements UserDetailsService {
         super();
     }
 
-    // API
-
     @Override
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
-        final String ip = getClientIP();
-        // (loginAttemptService.isBlocked(ip)) {
-        //    throw new RuntimeException("blocked");
-        //}
-
         try {
             final Optional<User> user = userRepository.findByEmailIgnoreCase(email);
             if (!user.isPresent()) {
@@ -59,8 +52,6 @@ public class VertigoUserDetailsService implements UserDetailsService {
             throw new RuntimeException(e);
         }
     }
-
-    // UTIL
 
     private final Collection<? extends GrantedAuthority> getAuthorities(final Collection<Role> roles) {
         return getGrantedAuthorities(getPrivileges(roles));
@@ -85,14 +76,6 @@ public class VertigoUserDetailsService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(privilege));
         }
         return authorities;
-    }
-
-    private final String getClientIP() {
-        final String xfHeader = request.getHeader("X-Forwarded-For");
-        if (xfHeader == null) {
-            return request.getRemoteAddr();
-        }
-        return xfHeader.split(",")[0];
     }
 
 }

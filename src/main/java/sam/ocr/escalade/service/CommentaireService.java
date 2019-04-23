@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import sam.ocr.escalade.Main;
-import sam.ocr.escalade.commentModeration.OnCommentSubmissionEvent;
+import sam.ocr.escalade.listener.OnCommentAddedEvent;
 import sam.ocr.escalade.model.Commentaire;
 import sam.ocr.escalade.model.Site;
 import sam.ocr.escalade.model.SiteDescription;
@@ -18,7 +17,6 @@ import sam.ocr.escalade.repository.SiteRepository;
 import sam.ocr.escalade.repository.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -41,7 +39,7 @@ public class CommentaireService {
     @Autowired
     private SiteDescriptionRepository siteDescriptionRepository;
 
-    public boolean submitCommentaire(Integer siteId, String principalName, String content){
+    public boolean submitCommentaire(String appUrl, Integer siteId, String principalName, String content){
 
         Optional<Site> site = siteRepository.findById(siteId);
         if (!site.isPresent()){
@@ -67,7 +65,7 @@ public class CommentaireService {
         siteDescription.addCommentaire(savedCommentaire);
 
         siteDescriptionRepository.save(siteDescription);
-        ApplicationEvent event = new OnCommentSubmissionEvent(this, 1, "Salut", user.get().getFirstName()+ " " + user.get().getLastName());
+        ApplicationEvent event = new OnCommentAddedEvent(this, appUrl, 1, "Salut", user.get().getFirstName()+ " " + user.get().getLastName());
         eventPublisher.publishEvent(event);
         return true;
     }
