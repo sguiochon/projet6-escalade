@@ -7,14 +7,8 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import sam.ocr.escalade.listener.OnCommentAddedEvent;
-import sam.ocr.escalade.model.Commentaire;
-import sam.ocr.escalade.model.Site;
-import sam.ocr.escalade.model.SiteDescription;
-import sam.ocr.escalade.model.User;
-import sam.ocr.escalade.repository.CommentaireRepository;
-import sam.ocr.escalade.repository.SiteDescriptionRepository;
-import sam.ocr.escalade.repository.SiteRepository;
-import sam.ocr.escalade.repository.UserRepository;
+import sam.ocr.escalade.model.*;
+import sam.ocr.escalade.repository.*;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -37,20 +31,31 @@ public class CommentaireService {
     private UserRepository userRepository;
 
     @Autowired
+    private VerificationTokenRepository tokenRepository;
+
+    @Autowired
     private SiteDescriptionRepository siteDescriptionRepository;
 
-    public boolean submitCommentaire(String appUrl, Integer siteId, String principalName, String content){
+    /**
+     *
+     * @param appUrl
+     * @param siteId
+     * @param principalName
+     * @param content
+     * @return message d'erreur ou null si aucune erreur n'est survenue
+     */
+    public String submitCommentaire(String appUrl, Integer siteId, String principalName, String content){
 
         Optional<Site> site = siteRepository.findById(siteId);
         if (!site.isPresent()){
-            log.error("Invalid site (id): " + siteId);
-            return false;
+            log.error("Aucun site n'existe avec cet id: " + siteId);
+            return "Aucun site n'existe avec cet id: " + siteId;
         }
 
         Optional<User> user = userRepository.findByEmailIgnoreCase(principalName);
         if (!user.isPresent()){
-            log.error("Invalid user principal (email address): " + principalName);
-            return false;
+            log.error("Aucun utilisateur ce correspond à cet email: " + principalName);
+            return "Aucun utilisateur ne correspond à cet email: " + principalName;
         }
 
         Commentaire commentaire = new Commentaire();
@@ -65,9 +70,29 @@ public class CommentaireService {
         siteDescription.addCommentaire(savedCommentaire);
 
         siteDescriptionRepository.save(siteDescription);
-        ApplicationEvent event = new OnCommentAddedEvent(this, appUrl, 1, "Salut", user.get().getFirstName()+ " " + user.get().getLastName());
+        ApplicationEvent event = new OnCommentAddedEvent(this, appUrl, savedCommentaire, user.get());
         eventPublisher.publishEvent(event);
-        return true;
+        return null;
+    }
+
+    public String validateCommentaire(String token){
+        Optional<VerificationToken> verificationToken = tokenRepository.findById(token);
+        if (!verificationToken.isPresent()){
+            log.error("Jeton de vérification de commentaire invalide: " + token);
+            return "Ce token n'existe pas/plus. Le commentaire associé a peut-être été déjà validé...";
+        }
+        Commentaire commentaire = verificationToken.get().getCommentaire();
+        if (commentaire==null){
+            log.error("Aucun Commentaire associé à ce jeton de vérification: " + token);
+            return "Aucun commentaire associé à ce jeton";
+        }
+        tokenRepository.delete(verificationToken.get());
+        log.debug("VerificationToken " + token + " was deleted (comment validation)");
+
+        commentaire.setStatut(CommentaireStatut.valide);
+        Commentaire updatedCommentaire = commentaireRepository.save(commentaire);
+        log.debug("Le commentaire id: " + updatedCommentaire.getId() + " a désormais le statut '" + updatedCommentaire.getStatut() + "'");
+        return null;
     }
 
 }

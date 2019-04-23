@@ -18,41 +18,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private VertigoUserDetailsService userDetailsService;
 
-    /*
-    @Autowired
-    private DataSource datasource;
-
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        //Use Spring Boot UserDetails Manager
-        JdbcUserDetailsManager userDetailsService = new JdbcUserDetailsManager();
-
-        //Set our Datasource to use the one defined in application.properties
-        userDetailsService.setDataSource(datasource);
-
-        //Create BCryptPassword encoder
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        //add components
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
-        auth.jdbcAuthentication().dataSource(datasource);
-
-        // add new user "user" with password "password" - password will be encrypted
-        if (!userDetailsService.userExists("inferno@hell.com")) {
-            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-            authorities.add(new SimpleGrantedAuthority("USER"));
-            authorities.add(new SimpleGrantedAuthority("ADMIN"));
-            User userDetails = new User("inferno@hell.com", encoder.encode("1234"), authorities);
-            userDetailsService.createUser(userDetails);
-        }
-    }
-*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/sites", "/site", "/sample", "/topos", "/pays", "/nomSite","/sujetTopo","/*.jpg", "/*.png", "/*.css", "/*.js").permitAll()
+                .antMatchers("/", "/sites", "/site", "/sample", "/topos", "/commentValidation","/register",  "/pays", "/nomSite","/sujetTopo","/*.jpg", "/*.png", "/*.css", "/*.js").permitAll()
                 .antMatchers("/resa", "/pret").hasAuthority("USER")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()

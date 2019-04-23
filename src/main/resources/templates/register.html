@@ -1,0 +1,152 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="header :: copy"></head>
+
+<body>
+
+<p style="display:block"></p>
+<div class="container">
+
+    <p>&nbsp;</p>
+    <h1>Créer votre compte</h1>
+    <p>&nbsp;</p>
+
+    <form class="needs-validation" novalidate th:action="@{/register}" method="post" id="formRegister">
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="firstname">Prénom</label>
+                <input type="text" class="form-control" id="firstname" placeholder="Votre prénom" required>
+                <div class="invalid-feedback">
+                    Ce champ ne peut être vide.
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="name">Nom</label>
+                <input type="text" class="form-control" id="name" placeholder="Votre nom" required>
+                <div class="invalid-feedback">
+                    Ce champ ne peut être vide.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="email">Identifiant</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend">@</span>
+                    </div>
+                    <input type="email" class="form-control" id="email" placeholder="Votre adresse email"
+                           aria-describedby="inputGroupPrepend" required>
+                    <div class="invalid-feedback">
+                        Ce champ ne peut être vide.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="password">Mot de passe</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password" placeholder="Votre mot de passe"
+                           aria-describedby="inputGroupPrepend" minlength="8" required>
+                    <div class="invalid-feedback">
+                        Votre mot de passe doit comporter au moins 8 caractères.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="password">Confirmez votre mot de passe</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password2" placeholder="Confirmez votre mot de passe"
+                           aria-describedby="inputGroupPrepend" minlength="8" required>
+                    <div class="invalid-feedback">
+                        Votre mot de passe est différent de votre première saisie.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Enregistrer</button>
+    </form>
+
+
+    <p>&nbsp;</p>
+
+</div>
+
+</body>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+
+    var pass2 = document.getElementById("password2");
+    var pass1 = document.getElementById("password");
+    var form = document.getElementById("formRegister");
+
+    function addEvent(element, event, callback) {
+        var previousEventCallBack = element["on"+event];
+        element["on"+event] = function (e) {
+            var output = callback(e);
+
+            // A callback that returns `false` stops the callback chain
+            // and interrupts the execution of the event callback.
+            if (output === false) return false;
+
+            if (typeof previousEventCallBack === 'function') {
+                output = previousEventCallBack(e);
+                if(output === false) return false;
+            }
+        }
+    };
+
+    // This defines what happens when the user types in the field
+    addEvent(pass2, "input", function () {
+        console.log(pass2.value);
+        var test = (pass2.value === pass1.value);
+        if (test) {
+            pass2.className = "form-control";
+        } else {
+            pass2.className = "form-control is-invalid";
+            form.className = "needs-validation"
+        }
+    });
+
+    addEvent(pass1, "input", function () {
+        console.log(pass1.value);
+        var test = (pass2.value === pass1.value);
+        if (test) {
+            pass2.className = "form-control";
+        } else {
+            pass2.className = "form-control is-invalid";
+            form.className = "needs-validation"
+        }
+    });
+
+</script>
+
+
+</html>

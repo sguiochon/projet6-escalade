@@ -48,15 +48,12 @@ public class SiteController {
     @RequestMapping("/")
     public String home(Model model) {
         List<Site> sites = siteService.getSitesMisEnAvant();
-        logger.debug("Nb de sites 'mis en avant': " + sites.size());
         model.addAttribute("sites", sites);
         return "accueil";
     }
 
     @RequestMapping("/sites")
     public String showSites(@RequestParam(name = "p", required = false) String pageNb, @RequestParam(required = false) String pays, @RequestParam(required = false) String site, @RequestParam(required = false) String niveau, Model model) {
-        logger.debug(">>>>>>>>>>>>>>>>> Param recus >>>>>>>>>>>>>>>>>> PageCourante: " + pageNb + ", pays:" + pays + ", niveau:" + niveau + ", site:" + site);
-
         int currentPage = pageNb == null ? 0 : Integer.parseInt(pageNb);
         Page<Site> page = siteService.getSites(applicationConfig.tableSize, currentPage, pays, site, niveau);
 
@@ -73,7 +70,6 @@ public class SiteController {
         model.addAttribute("nav", nav);
         model.addAttribute("recherche", recherche);
         model.addAttribute("sites", page.getContent());
-        logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PageCourante: " + currentPage + ", totalPage: " + page.getTotalPages() + ", pays:" + pays + ", niveau:" + niveau + ", site:" + site);
         return "sites";
     }
 
@@ -86,14 +82,10 @@ public class SiteController {
 
     @RequestMapping(value = "/commentaire/{siteId}", method = POST)
     public String saveCommentaire(@PathVariable("siteId") String siteId, @RequestParam(name = "contenu", required = false) String contenu, RedirectAttributes redirectAttributes, Principal principal, HttpServletRequest request) {
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> site id: " + siteId);
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> contenu: " + contenu);
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> principal: " + principal.getClass().getName());
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> principal name: " + principal.getName());
 
         final String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
-        commentaireService.submitCommentaire(appUrl, Integer.parseInt(siteId), principal.getName(), contenu);
+        String errorMessage = commentaireService.submitCommentaire(appUrl, Integer.parseInt(siteId), principal.getName(), contenu);
 
         redirectAttributes.addAttribute("id", siteId);
         return "redirect:/site?#commentaire";
@@ -109,31 +101,5 @@ public class SiteController {
         model.addAttribute("loginError", true);
         return "login";
     }
-
-    /*
-    @RequestMapping("/sample")
-    public String showForm(HttpServletRequest request) {
-
-        HttpSession session = request.getSession(true);
-        Enumeration<String> names = session.getAttributeNames();
-        while (names.hasMoreElements()){
-            String name = names.nextElement();
-            logger.info("Found in session: " + name);
-            if ("SPRING_SECURITY_CONTEXT".equals(name)){
-                SecurityContext ctx=(SecurityContext)session.getAttribute("SPRING_SECURITY_CONTEXT");
-                Authentication auth=ctx.getAuthentication();
-                WebAuthenticationDetails details = (WebAuthenticationDetails) auth.getDetails();
-                logger.info("Details: " + details.toString());
-                logger.info("Name:" + auth.getName());
-                logger.info("Authorities: " + auth.getAuthorities());
-                logger.info("Credentials: " + auth.getCredentials());
-                logger.info("isAuthenticated: " + auth.isAuthenticated());
-                UserDetails user = (UserDetails) auth.getPrincipal();
-                logger.info("User: " + user.getUsername() + ", " + user.getPassword() + ", " + user.isEnabled());
-            }
-        };
-        return "sample";
-    }*/
-
 
 }

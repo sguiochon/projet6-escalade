@@ -41,11 +41,11 @@ INSERT INTO users_roles (user_id, role_id)
 VALUES (5, 1);
 
 
-INSERT INTO commentaire (id, contenu, creation_date, auteur_id)
-VALUES (100, 'Super site. Je vous le recommande! J’y suis allé l’année dernière et c’était genial!', '2019-01-10 10:00:00', 3);
+INSERT INTO commentaire (id, contenu, creation_date, auteur_id, statut)
+VALUES (100, 'Super site. Je vous le recommande! J’y suis allé l’année dernière et c’était genial!', '2019-01-10 10:00:00', 3, 'valide');
 
-INSERT INTO commentaire (id, contenu, creation_date, auteur_id)
-VALUES (200, 'Je confirme!', '2019-03-05 12:30:00', 3);
+INSERT INTO commentaire (id, contenu, creation_date, auteur_id, statut)
+VALUES (200, 'Je confirme!', '2019-03-05 12:30:00', 3, 'valide');
 
 
 INSERT INTO site_description (id) VALUES (1);

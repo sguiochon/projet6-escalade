@@ -1,36 +1,31 @@
 package sam.ocr.escalade.listener;
 
 import org.springframework.context.ApplicationEvent;
+import sam.ocr.escalade.model.Commentaire;
+import sam.ocr.escalade.model.User;
 
 public class OnCommentAddedEvent extends ApplicationEvent {
 
-    private Integer commentaireId;
-    private String commentaireContent;
-    private String auteur;
+    private Commentaire commentaire;
+    private User auteur;
     private String appUrl;
 
-    public OnCommentAddedEvent(Object source, String appUrl, Integer commentaireId, String commentaireContent, String auteur) {
+    public OnCommentAddedEvent(Object source, String appUrl, Commentaire commentaire, User auteur) {
         super(source);
         this.appUrl = appUrl;
         this.auteur = auteur;
-        this.commentaireContent = commentaireContent;
-        this.commentaireId = commentaireId;
+        this.commentaire = commentaire;
     }
 
-    public Integer getCommentaireId() {
-        return commentaireId;
+    public Commentaire getCommentaire() {
+        return commentaire;
     }
 
     public String getAppUrl() {
         return appUrl;
     }
 
-    public String getCommentaireContent() {
-        return commentaireContent;
-    }
-
-
-    public String getAuteur() {
+    public User getAuteur() {
         return auteur;
     }
 

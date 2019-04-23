@@ -47,7 +47,7 @@ public class SiteService {
         String niveau = (paramNiveau == null) ? null : processParamNiveau(paramNiveau);
         String site = (paramSite == null || paramSite.equals("")) ? null : paramSite;
 
-        log.debug("### Searching 'Site' matching : Pays=" + pays + ", niveau=" + niveau + ", Site=" + site);
+        log.debug("Searching 'Site' matching : Pays=" + pays + ", niveau=" + niveau + ", Site=" + site);
 
         PageRequest pageIn = PageRequest.of(pageNumber, pageSize);
 

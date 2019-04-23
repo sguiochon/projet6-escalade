@@ -31,7 +31,7 @@
                 </div>
                 <div class="d-flex justify-content-between flex-wrap">
                 <div><button type="submit" class="btn btn-primary">Se connecter</button></div>
-                <div>Pas encore membre? <button class="btn btn-primary">Créer un compte</button></div>
+                <div>Pas encore membre? <a th:href="@{/register}" href="#" class="btn btn-primary">Créer un compte</a></div>
                 </div>
             </form>
         </div>
@@ -41,8 +41,6 @@
 
 </div>
 
-
-<!--<div th:replace="footer :: copy"></div>-->
-
 </body>
+
 </html>

@@ -56,8 +56,7 @@
 
     <div th:with="commentaires = ${site.detail.commentaires}">
         <th:block th:each="commentaire : ${commentaires}">
-
-            <div class="card">
+            <div th:if="${commentaire.statut.toString() == 'valide'}" class="card">
                 <div class="card-header" th:text="${commentaire.auteur.firstName} + ' ' + ${commentaire.auteur.lastName} + ', le ' + ${#temporals.format(commentaire.creationDate,'E dd MMMM yyyy HH:mm')} ">
                 </div>
                 <div class="card-body">
@@ -65,7 +64,6 @@
                 </div>
             </div>
             <h6>&nbsp;</h6>
-
         </th:block>
 
     </div>
@@ -81,12 +79,16 @@
             <div class="card-header" >Votre commentaire:
             </div>
             <div class="card-body">
-                <form th:action="@{/commentaire/{id}(id=${site.id})}" method="post">
+                <form th:action="@{/commentaire/{id}(id=${site.id})}" method="post" id="addComment">
                     <div class="form-group">
+                        <label for="textarea1">Votre message</label>
                         <textarea class="form-control" id="textarea1" rows="3" name="contenu" placeholder="Saisissez votre message ici..."></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+
                 </form>
+
+                <button onclick="$('#infoModal').modal('show');" class="btn btn-primary">Enregistrer</button>
+
             </div>
 
         </div>
@@ -94,6 +96,30 @@
 
 
 </div>
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="modalLabel" class="modal fade" id="infoModal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Vos commentaires font vivre le site!</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-form-label">Votre commentaire sera publié après validation de son contenu, ce qui ne prendra pas plus de quelques heures...</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" type="button" onclick="$('#addComment').submit()">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script  th:inline="javascript">
 
