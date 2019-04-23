@@ -1,6 +1,7 @@
 package sam.ocr.escalade.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -11,7 +12,7 @@ public class Commentaire {
     private Integer id;
     @ManyToOne
     private User auteur;
-    private Date creationDate;
+    private LocalDateTime creationDate;
     private String contenu;
     @Enumerated(value = EnumType.STRING)
     private CommentaireStatut statut = CommentaireStatut.soumis;
@@ -40,11 +41,11 @@ public class Commentaire {
         this.auteur = auteur;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 

@@ -12,6 +12,9 @@ import sam.ocr.escalade.model.User;
 import sam.ocr.escalade.repository.TopoRepository;
 import sam.ocr.escalade.repository.UserRepository;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -65,7 +68,7 @@ public class TopoService {
         return titresAndDescriptions;
     }
 
-    public void reserveTopo(String emprunteurEmail, Integer topoId){
+    public void reserveTopo(String emprunteurEmail, Integer topoId, Integer nbSemaines){
         Optional<Topo> result = topoRepository.findById(topoId);
         if (result.isPresent()){
             Topo topo = result.get();
@@ -81,7 +84,8 @@ public class TopoService {
                     return;
                 }
                 topo.setEmprunteur(resultUser.get());
-                topo.setDateEmprunt(new Date());
+                topo.setDateEmprunt(LocalDateTime.now());
+                topo.setDateFinEmprunt(LocalDateTime.now().plus(nbSemaines, ChronoUnit.WEEKS));
                 topoRepository.save(topo);
             }
         }

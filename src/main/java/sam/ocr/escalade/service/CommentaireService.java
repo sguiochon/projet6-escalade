@@ -17,6 +17,7 @@ import sam.ocr.escalade.repository.SiteDescriptionRepository;
 import sam.ocr.escalade.repository.SiteRepository;
 import sam.ocr.escalade.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -57,7 +58,7 @@ public class CommentaireService {
         Commentaire commentaire = new Commentaire();
         commentaire.setContenu(content);
         commentaire.setAuteur(user.get());
-        commentaire.setCreationDate(new Date());
+        commentaire.setCreationDate(LocalDateTime.now());
 
         Commentaire savedCommentaire = commentaireRepository.save(commentaire);
 

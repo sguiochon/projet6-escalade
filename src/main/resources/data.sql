@@ -45,7 +45,7 @@ INSERT INTO commentaire (id, contenu, creation_date, auteur_id)
 VALUES (100, 'Super site. Je vous le recommande! J’y suis allé l’année dernière et c’était genial!', '2019-01-10 10:00:00', 3);
 
 INSERT INTO commentaire (id, contenu, creation_date, auteur_id)
-VALUES (200, 'Je confirme!', '2019-01-01 10:00:00', 3);
+VALUES (200, 'Je confirme!', '2019-03-05 12:30:00', 3);
 
 
 INSERT INTO site_description (id) VALUES (1);
@@ -167,8 +167,8 @@ contenu3='Ce n’est pas ce qui manque dans la vallée de Chamonix. Campings, h�
 WHERE id=7;
 
 
-INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id, emprunteur_id)
-VALUES (1, '6a Max Dauphiné', 'Une sélection d’escalades de 4+ à 6a en Dauphiné', '', 'libre', 'topo_1.jpg', 3, 4);
+INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id, emprunteur_id, date_fin_emprunt)
+VALUES (1, '6a Max Dauphiné', 'Une sélection d’escalades de 4+ à 6a en Dauphiné', '', 'libre', 'topo_1.jpg', 3, 4, '2019-04-24');
 
 INSERT INTO topo_sites (topo_id, sites_id)
 VALUES (1, 1);
@@ -186,8 +186,8 @@ VALUES (3, 'El Pirineo Occidental', 'Une sélection d’escalades dans les pyré
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
 VALUES (4, 'Corsica Bloc', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_4.jpg', 4);
 
-INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id, emprunteur_id)
-VALUES (5, 'Escalar en España', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_5.jpg', 4, 5);
+INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id, emprunteur_id, date_fin_emprunt)
+VALUES (5, 'Escalar en España', 'Une sélection d’escalades en Corse', '', 'libre', 'topo_5.jpg', 4, 5, '2019-05-31');
 
 INSERT INTO topo (id, titre, description, nom_ressource, statut, image1, preteur_id)
 VALUES (6, 'Dolomites', 'Une sélection d’escalades dans les Dolomites', '', 'libre', 'topo_6.jpg', 4);

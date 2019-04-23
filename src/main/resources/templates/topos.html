@@ -107,6 +107,7 @@
                                 </div>
                                 <div th:if="${topo.emprunteur}!=null">
                                     <button class="btn btn-secondary" data-placement="top" data-toggle="tooltip"
+                                            th:title="'Ce topoguide est actuellement utilisé par un membre du site et sera disponible à partir du ' + ${#temporals.format(topo.dateFinEmprunt,'E dd MMMM yyyy')}"
                                             title="Ce topoguide est actuellement utilisé par un membre du site" type="button">Déjà réservé
                                     </button>
                                 </div>
@@ -158,8 +159,14 @@
             <div class="modal-body">
                 <input class="form-control" id="recipient-name" name="id" type="hidden">
                 <div class="form-group">
-                    <label class="col-form-label" for="message-text">Confirmez-vous la réservation de ce
-                        topoguide?</label>
+                    <label class="col-form-label" for="message-text">Choisissez la durée de votre réservation:</label>
+
+                    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                        <option selected value="1">1 semaine</option>
+                        <option value="2">2 semaines</option>
+                        <option value="3">3 semaines</option>
+                        <option value="4">1 mois</option>
+                    </select>
                 </div>
             </div>
             <div class="modal-footer">
@@ -174,12 +181,13 @@
 
     function reserverTopo() {
         var id = $("#reservationModal").find("#recipient-name").val();
-        console.log("+++>" + id);
+        var duration = $("#inlineFormCustomSelect").children("option:selected").val();
+        console.log("id: " + id + ", duration: " + duration);
         $.ajax({
             url: 'resa',
             contentType: 'application/json',
             dataType: 'text',
-            data: id,
+            data: '{"id":' + id + ',"duration":' + duration + '}',
             type: 'POST',
             error: function () {
                 console.log("erreur....")

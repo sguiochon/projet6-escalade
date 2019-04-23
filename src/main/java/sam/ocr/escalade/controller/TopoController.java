@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import sam.ocr.escalade.config.ApplicationConfig;
 import sam.ocr.escalade.dto.NavDTO;
 import sam.ocr.escalade.dto.RechercheTopoDTO;
+import sam.ocr.escalade.dto.ReservationTopoDTO;
 import sam.ocr.escalade.model.Topo;
 import sam.ocr.escalade.repository.UserRepository;
 import sam.ocr.escalade.service.TopoService;
@@ -56,10 +57,10 @@ public class TopoController {
 
     @RequestMapping(value="/resa", method = RequestMethod.POST)
     @ResponseBody
-    public String reserverTopo( Principal principal, @RequestBody Integer id){
-        logger.info("oooooooo+++++++/////////// > Principal name: " + principal.getName() + ", id: " + id);
+    public String reserverTopo( Principal principal, @RequestBody ReservationTopoDTO reservation){
+        logger.info("oooooooo+++++++/////////// > Principal name: " + principal.getName() + ", id: " + reservation.getId() + ", durée:" + reservation.getDuration());
 
-        topoService.reserveTopo(principal.getName(), id);
+        topoService.reserveTopo(principal.getName(), reservation.getId(), reservation.getDuration());
 
         return "";
     }

@@ -73,7 +73,8 @@
                     <th scope="col">Titre</th>
                     <th scope="col">Description</th>
                     <th scope="col">Emprunteur</th>
-                    <th scope="col">Date emprunt</th>
+                    <th scope="col">Du</th>
+                    <th scope="col">Jusqu'au</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -84,7 +85,8 @@
 
                     <th:block th:if="${pret.emprunteur}!=null">
                         <td th:text="${pret.emprunteur.firstName} + ' ' + ${pret.emprunteur.lastName}">Mark</td>
-                        <td th:text="${pret.dateEmprunt}"></td>
+                        <td th:text="${#temporals.format(pret.dateEmprunt, 'E dd MMMM yyyy')}"></td>
+                        <td th:text="${#temporals.format(pret.dateFinEmprunt, 'E dd MMMM yyyy')}"></td>
                     </th:block>
                 </tr>
                 </tbody>

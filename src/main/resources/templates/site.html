@@ -58,7 +58,7 @@
         <th:block th:each="commentaire : ${commentaires}">
 
             <div class="card">
-                <div class="card-header" th:text="${commentaire.auteur.firstName} + ' ' + ${commentaire.auteur.lastName} + ', le ' + ${#calendars.format(commentaire.creationDate,'E dd MMMM yyyy')} ">
+                <div class="card-header" th:text="${commentaire.auteur.firstName} + ' ' + ${commentaire.auteur.lastName} + ', le ' + ${#temporals.format(commentaire.creationDate,'E dd MMMM yyyy HH:mm')} ">
                 </div>
                 <div class="card-body">
                     <p class="card-text" th:text="${commentaire.contenu}">Contenu</p>

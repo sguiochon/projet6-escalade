@@ -1,6 +1,7 @@
 package sam.ocr.escalade.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -20,10 +21,19 @@ public class Topo {
     private User preteur;
     @ManyToOne
     private User emprunteur;
-    private Date dateEmprunt;
+    private LocalDateTime dateEmprunt;
+    private LocalDateTime dateFinEmprunt;
     @ManyToMany
     private List<Site> sites;
     private String image1;
+
+    public LocalDateTime getDateFinEmprunt() {
+        return dateFinEmprunt;
+    }
+
+    public void setDateFinEmprunt(LocalDateTime dateFinEmprunt) {
+        this.dateFinEmprunt = dateFinEmprunt;
+    }
 
     public User getEmprunteur() {
         return emprunteur;
@@ -33,11 +43,11 @@ public class Topo {
         this.emprunteur = emprunteur;
     }
 
-    public Date getDateEmprunt() {
+    public LocalDateTime getDateEmprunt() {
         return dateEmprunt;
     }
 
-    public void setDateEmprunt(Date dateEmprunt) {
+    public void setDateEmprunt(LocalDateTime dateEmprunt) {
         this.dateEmprunt = dateEmprunt;
     }
 
