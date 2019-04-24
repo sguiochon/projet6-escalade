@@ -24,8 +24,6 @@
     <p>&nbsp;</p>
 
 
-
-
     <th:block th:each="site : ${sites}">
         <div class="card" style="width: 100%">
             <div class="card-body">
@@ -53,12 +51,44 @@
         </div>
         <p/>
     </th:block>
-
-
 </div>
 
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="modalLabel" class="modal fade" id="infoModal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Titre</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label id="label" class="col-form-label">Message</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" type="button" onclick="$('#addComment').submit()">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<!--<div th:replace="footer :: copy"></div>-->
+<script th:if="${error!=null}" th:inline="javascript">
+    $('#modalLabel').text = "Votre inscription a échoué";
+    $('#label').value = /*[[${error}]]*/ 0;
+    $('#infoModal').modal('show');
+</script>
+
+<script th:if="${message!=null}" th:inline="javascript">
+    $('#modalLabel').text = "Votre inscription a échoué";
+    $('#label').value = /*[[${message}]]*/ 0;
+    $('#infoModal').modal('show');
+</script>
+
+
 
 </body>
 </html>

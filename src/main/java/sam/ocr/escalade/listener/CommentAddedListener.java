@@ -1,5 +1,7 @@
 package sam.ocr.escalade.listener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
@@ -11,21 +13,28 @@ import org.springframework.stereotype.Component;
 import sam.ocr.escalade.model.Commentaire;
 import sam.ocr.escalade.model.VerificationToken;
 import sam.ocr.escalade.repository.VerificationTokenRepository;
+import sam.ocr.escalade.service.CommentaireService;
 
 import java.util.Locale;
 import java.util.UUID;
 
 @Component
-public class CommentAddedListener implements ApplicationListener<OnCommentAddedEvent> {
+public class CommentAddedListener implements ICommentAddedListener {
+
+    private static final Logger logger = LoggerFactory.getLogger(CommentAddedListener.class);
+
+    private final JavaMailSender mailSender;
+
+    private final Environment env;
+
+    private final VerificationTokenRepository tokenRepository;
 
     @Autowired
-    private JavaMailSender mailSender;
-
-    @Autowired
-    private Environment env;
-
-    @Autowired
-    private VerificationTokenRepository tokenRepository;
+    public CommentAddedListener(JavaMailSender mailSender, Environment env, VerificationTokenRepository tokenRepository) {
+        this.mailSender = mailSender;
+        this.env = env;
+        this.tokenRepository = tokenRepository;
+    }
 
     @Override
     public void onApplicationEvent(OnCommentAddedEvent event) {
@@ -38,6 +47,7 @@ public class CommentAddedListener implements ApplicationListener<OnCommentAddedE
         tokenRepository.save(verificationToken);
 
         final SimpleMailMessage email = constructEmailMessage(event, uuid.toString());
+        logger.debug("Envoi d'email: " + email);
         mailSender.send(email);
     }
 

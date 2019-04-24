@@ -1,6 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="header :: copy"></head>
 
@@ -10,21 +10,22 @@
 <div class="container">
 
     <p>&nbsp;</p>
-    <h1>Créer votre compte</h1>
+    <h1>Créer votre compte SAM</h1>
     <p>&nbsp;</p>
 
-    <form class="needs-validation" novalidate th:action="@{/register}" method="post" id="formRegister">
+    <form class="needs-validation" id="formRegister" method="post" novalidate th:action="@{/register}">
         <div class="form-row">
             <div class="col-md-4 mb-3">
                 <label for="firstname">Prénom</label>
-                <input type="text" class="form-control" id="firstname" placeholder="Votre prénom" required>
+                <input class="form-control" id="firstname" name="firstname" placeholder="Votre prénom" required
+                       type="text">
                 <div class="invalid-feedback">
                     Ce champ ne peut être vide.
                 </div>
             </div>
             <div class="col-md-4 mb-3">
-                <label for="name">Nom</label>
-                <input type="text" class="form-control" id="name" placeholder="Votre nom" required>
+                <label for="lastname">Nom</label>
+                <input class="form-control" id="lastname" name="lastname" placeholder="Votre nom" required type="text">
                 <div class="invalid-feedback">
                     Ce champ ne peut être vide.
                 </div>
@@ -38,8 +39,8 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
                     </div>
-                    <input type="email" class="form-control" id="email" placeholder="Votre adresse email"
-                           aria-describedby="inputGroupPrepend" required>
+                    <input aria-describedby="inputGroupPrepend" class="form-control" id="email" name="email" placeholder="Votre adresse email"
+                           required type="email">
                     <div class="invalid-feedback">
                         Ce champ ne peut être vide.
                     </div>
@@ -51,8 +52,9 @@
             <div class="col-md-4 mb-3">
                 <label for="password">Mot de passe</label>
                 <div class="input-group">
-                    <input type="password" class="form-control" id="password" placeholder="Votre mot de passe"
-                           aria-describedby="inputGroupPrepend" minlength="8" required>
+                    <input aria-describedby="inputGroupPrepend" class="form-control" id="password" minlength="8"
+                           name="password"
+                           placeholder="Au moins 8 caractères" required type="password">
                     <div class="invalid-feedback">
                         Votre mot de passe doit comporter au moins 8 caractères.
                     </div>
@@ -64,8 +66,9 @@
             <div class="col-md-4 mb-3">
                 <label for="password">Confirmez votre mot de passe</label>
                 <div class="input-group">
-                    <input type="password" class="form-control" id="password2" placeholder="Confirmez votre mot de passe"
-                           aria-describedby="inputGroupPrepend" minlength="8" required>
+                    <input aria-describedby="inputGroupPrepend" class="form-control" id="password2" minlength="8"
+                           name="password2"
+                           placeholder="resaisir votre mot de passe" required type="password">
                     <div class="invalid-feedback">
                         Votre mot de passe est différent de votre première saisie.
                     </div>
@@ -73,12 +76,37 @@
             </div>
         </div>
 
-        <button class="btn btn-primary" type="submit">Enregistrer</button>
+        <button class="btn btn-primary" id="submitForm">Enregistrer</button>
     </form>
 
 
     <p>&nbsp;</p>
 
+</div>
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="modalLabel" class="modal fade" id="infoModal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Votre création de compte</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-form-label">Vous allez recevoir un email de confirmation à l'adresse email que
+                        vous avez indiquée. Vous devrez cliquer sur le lien qu'il contient afin d'activer votre
+                        compte.</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" id="modalClose" type="button">Fermer</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
@@ -93,11 +121,21 @@
             // Loop over them and prevent submission
             var validation = Array.prototype.filter.call(forms, function (form) {
                 form.addEventListener('submit', function (event) {
+                    console.log(">>>> evenement traité");
                     if (form.checkValidity() === false) {
+                        console.log(">>>>>> validity FALSE");
                         event.preventDefault();
                         event.stopPropagation();
                     }
                     form.classList.add('was-validated');
+
+                    if (form.checkValidity() === true) {
+                        if(!$('#infoModal').hasClass('in')){
+                            $('#infoModal').modal('show');
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                    }
                 }, false);
             });
         }, false);
@@ -108,8 +146,8 @@
     var form = document.getElementById("formRegister");
 
     function addEvent(element, event, callback) {
-        var previousEventCallBack = element["on"+event];
-        element["on"+event] = function (e) {
+        var previousEventCallBack = element["on" + event];
+        element["on" + event] = function (e) {
             var output = callback(e);
 
             // A callback that returns `false` stops the callback chain
@@ -118,11 +156,10 @@
 
             if (typeof previousEventCallBack === 'function') {
                 output = previousEventCallBack(e);
-                if(output === false) return false;
+                if (output === false) return false;
             }
         }
-    };
-
+    }
     // This defines what happens when the user types in the field
     addEvent(pass2, "input", function () {
         console.log(pass2.value);
@@ -144,6 +181,11 @@
             pass2.className = "form-control is-invalid";
             form.className = "needs-validation"
         }
+    });
+
+
+    $("#modalClose").click(function () {
+        $('#formRegister').submit();
     });
 
 </script>

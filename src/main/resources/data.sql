@@ -19,18 +19,18 @@ VALUES (2, 1);
 INSERT INTO roles_privileges (role_id, privilege_id)
 VALUES (2, 2);
 
-INSERT INTO user_account (id,email,first_name, last_name,password, secret, enabled, is_using2fa)
-VALUES (1, 'inferno@hell.com', 'Dr', 'Sam', '$2a$11$xc8x65LwMEFB2zugF8h5vOHWojwGpp3Om9OXVw1YJWvckR1uyXrVq','secret!', TRUE, FALSE);
+INSERT INTO user_account (id,email,first_name, last_name,password, enabled, is_using2fa)
+VALUES (1, 'inferno@hell.com', 'Dr', 'Sam', '$2a$11$xc8x65LwMEFB2zugF8h5vOHWojwGpp3Om9OXVw1YJWvckR1uyXrVq', TRUE, FALSE);
 
 INSERT INTO users_roles (user_id, role_id)
 VALUES (1, 2);
 
-INSERT INTO user_account (id,email,first_name, last_name,password, secret, enabled, is_using2fa)
-VALUES (3, 'user@hell.com', 'Jack', 'Bauer', '$2a$11$xc8x65LwMEFB2zugF8h5vOHWojwGpp3Om9OXVw1YJWvckR1uyXrVq','secret!', TRUE, FALSE);
-INSERT INTO user_account (id,email,first_name, last_name,password, secret, enabled, is_using2fa)
-VALUES (4, 'arthur@hell.com', 'Arthur', 'Morgan', '$2a$11$xc8x65LwMEFB2zugF8h5vOHWojwGpp3Om9OXVw1YJWvckR1uyXrVq','secret!', TRUE, FALSE);
-INSERT INTO user_account (id,email,first_name, last_name,password, secret, enabled, is_using2fa)
-VALUES (5, 'harry@hell.com', 'Harry', 'Callahan', '$2a$11$xc8x65LwMEFB2zugF8h5vOHWojwGpp3Om9OXVw1YJWvckR1uyXrVq','secret!', TRUE, FALSE);
+INSERT INTO user_account (id,email,first_name, last_name,password, enabled, is_using2fa)
+VALUES (3, 'user@hell.com', 'Jack', 'Bauer', '$2a$11$xc8x65LwMEFB2zugF8h5vOHWojwGpp3Om9OXVw1YJWvckR1uyXrVq',TRUE, FALSE);
+INSERT INTO user_account (id,email,first_name, last_name,password, enabled, is_using2fa)
+VALUES (4, 'arthur@hell.com', 'Arthur', 'Morgan', '$2a$11$xc8x65LwMEFB2zugF8h5vOHWojwGpp3Om9OXVw1YJWvckR1uyXrVq', TRUE, FALSE);
+INSERT INTO user_account (id,email,first_name, last_name,password, enabled, is_using2fa)
+VALUES (5, 'harry@hell.com', 'Harry', 'Callahan', '$2a$11$xc8x65LwMEFB2zugF8h5vOHWojwGpp3Om9OXVw1YJWvckR1uyXrVq', TRUE, FALSE);
 
 
 INSERT INTO users_roles (user_id, role_id)

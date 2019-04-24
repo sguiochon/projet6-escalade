@@ -26,18 +26,21 @@ public class User {
 
     private boolean isUsing2FA;
 
-    private String secret;
-
-    //
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
 
     public User() {
-        super();
-        this.secret = "secret!";//Base32.random();
-        this.enabled = true;
+        this.enabled = false;
+        roles = new ArrayList<Role>();
+    }
+
+    public User(String firstName, String lastName, String email, String password){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.enabled = false;
         roles = new ArrayList<Role>();
     }
 
@@ -94,7 +97,6 @@ public class User {
     }
 
     public boolean isEnabled() {
-        System.out.println("----- >>>>>>> User.isEnabled: " + enabled);
         return enabled;
     }
 
@@ -108,14 +110,6 @@ public class User {
 
     public void setUsing2FA(boolean isUsing2FA) {
         this.isUsing2FA = isUsing2FA;
-    }
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
     }
 
     @Override
@@ -149,7 +143,7 @@ public class User {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append("User [id=").append(id).append(", firstName=").append(firstName).append(", lastName=").append(lastName).append(", email=").append(email).append(", password=").append(password).append(", enabled=").append(enabled).append(", isUsing2FA=")
-                .append(isUsing2FA).append(", secret=").append(secret).append(", roles=").append(roles).append("]");
+                .append(isUsing2FA).append(", secret=").append(", roles=").append(roles).append("]");
         return builder.toString();
     }
 

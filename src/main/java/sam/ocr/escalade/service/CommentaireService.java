@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 public class CommentaireService {
 
-    private static final Logger log = LoggerFactory.getLogger(CommentaireService.class);
+    private static final Logger logger = LoggerFactory.getLogger(CommentaireService.class);
 
     @Autowired
     private ApplicationEventPublisher eventPublisher;
@@ -36,6 +36,7 @@ public class CommentaireService {
     @Autowired
     private SiteDescriptionRepository siteDescriptionRepository;
 
+
     /**
      *
      * @param appUrl
@@ -44,18 +45,18 @@ public class CommentaireService {
      * @param content
      * @return message d'erreur ou null si aucune erreur n'est survenue
      */
-    public String submitCommentaire(String appUrl, Integer siteId, String principalName, String content){
+    public Optional<String> submitCommentaire(String appUrl, Integer siteId, String principalName, String content){
 
         Optional<Site> site = siteRepository.findById(siteId);
         if (!site.isPresent()){
-            log.error("Aucun site n'existe avec cet id: " + siteId);
-            return "Aucun site n'existe avec cet id: " + siteId;
+            logger.error("Aucun site n'existe avec cet id: " + siteId);
+            return Optional.of("Aucun site n'existe avec cet id: " + siteId);
         }
 
         Optional<User> user = userRepository.findByEmailIgnoreCase(principalName);
         if (!user.isPresent()){
-            log.error("Aucun utilisateur ce correspond à cet email: " + principalName);
-            return "Aucun utilisateur ne correspond à cet email: " + principalName;
+            logger.error("Aucun utilisateur ce correspond à cet email: " + principalName);
+            return Optional.of("Aucun utilisateur ne correspond à cet email: " + principalName);
         }
 
         Commentaire commentaire = new Commentaire();
@@ -72,27 +73,27 @@ public class CommentaireService {
         siteDescriptionRepository.save(siteDescription);
         ApplicationEvent event = new OnCommentAddedEvent(this, appUrl, savedCommentaire, user.get());
         eventPublisher.publishEvent(event);
-        return null;
+        return Optional.empty();
     }
 
-    public String validateCommentaire(String token){
+    public Optional<String> validateCommentaire(String token){
         Optional<VerificationToken> verificationToken = tokenRepository.findById(token);
         if (!verificationToken.isPresent()){
-            log.error("Jeton de vérification de commentaire invalide: " + token);
-            return "Ce token n'existe pas/plus. Le commentaire associé a peut-être été déjà validé...";
+            logger.error("Jeton de vérification de commentaire invalide: " + token);
+            return Optional.of("Ce token n'existe pas/plus. Le commentaire associé a peut-être été déjà validé...");
         }
         Commentaire commentaire = verificationToken.get().getCommentaire();
         if (commentaire==null){
-            log.error("Aucun Commentaire associé à ce jeton de vérification: " + token);
-            return "Aucun commentaire associé à ce jeton";
+            logger.error("Aucun Commentaire associé à ce jeton de vérification: " + token);
+            return Optional.of("Aucun commentaire associé à ce jeton");
         }
         tokenRepository.delete(verificationToken.get());
-        log.debug("VerificationToken " + token + " was deleted (comment validation)");
+        logger.debug("VerificationToken " + token + " was deleted (comment validation)");
 
         commentaire.setStatut(CommentaireStatut.valide);
         Commentaire updatedCommentaire = commentaireRepository.save(commentaire);
-        log.debug("Le commentaire id: " + updatedCommentaire.getId() + " a désormais le statut '" + updatedCommentaire.getStatut() + "'");
-        return null;
+        logger.debug("Le commentaire id: " + updatedCommentaire.getId() + " a désormais le statut '" + updatedCommentaire.getStatut() + "'");
+        return Optional.empty();
     }
 
 }

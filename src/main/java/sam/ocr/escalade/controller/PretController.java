@@ -60,10 +60,7 @@ public class PretController {
     @PostMapping(value = "/pret")
     public String handleFileUpload(@RequestParam String titre, @RequestParam String description, @RequestParam("file") MultipartFile file, Principal principal, RedirectAttributes redirectAttributes) {
 
-        logger.debug(">>>>>>>>> titre: " + titre + ", description: " + description);
-        logger.debug(">>>>>>>>> file contentType: " + file.getContentType());
-        logger.debug(">>>>>>>>> file name: " + file.getOriginalFilename());
-        logger.debug(">>>>>>>>> file size: " + file.getSize());
+        logger.debug("Pret d'un topo - titre: " + titre + ", description: " + description + ", file contentType: " + file.getContentType() + ", file name: " + file.getOriginalFilename()+ ", file size: " + file.getSize());
 
         boolean result = pretService.createTopo(titre, description, file, principal.getName());
         if (result)

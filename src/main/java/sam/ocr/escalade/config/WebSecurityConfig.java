@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/sites", "/site", "/sample", "/topos", "/commentValidation","/register",  "/pays", "/nomSite","/sujetTopo","/*.jpg", "/*.png", "/*.css", "/*.js").permitAll()
+                .antMatchers("/", "/sites", "/site", "/sample", "/topos", "/commentValidation","/register", "/confirmRegistration", "/pays", "/nomSite","/sujetTopo","/*.jpg", "/*.png", "/*.css", "/*.js").permitAll()
                 .antMatchers("/resa", "/pret").hasAuthority("USER")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
@@ -43,7 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .rememberMe()
                 .and().csrf().disable();
     }
-
 
     @Bean
     public DaoAuthenticationProvider authProvider() {

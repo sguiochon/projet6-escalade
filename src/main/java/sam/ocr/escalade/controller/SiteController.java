@@ -46,9 +46,14 @@ public class SiteController {
     }
 
     @RequestMapping("/")
-    public String home(Model model) {
+    public String home(Model model, @RequestParam(required = false) String error, @RequestParam(required = false) String message) {
         List<Site> sites = siteService.getSitesMisEnAvant();
         model.addAttribute("sites", sites);
+        logger.debug("error message: " + error + ", message: " + message);
+        if (error!=null)
+            model.addAttribute("error", error);
+        if (message!=null)
+            model.addAttribute("message", message);
         return "accueil";
     }
 
@@ -85,7 +90,8 @@ public class SiteController {
 
         final String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
-        String errorMessage = commentaireService.submitCommentaire(appUrl, Integer.parseInt(siteId), principal.getName(), contenu);
+        Optional<String> errorMessage = commentaireService.submitCommentaire(appUrl, Integer.parseInt(siteId), principal.getName(), contenu);
+        //todo : voir si le message d'erreur doit etre remonté sur le brwoser...
 
         redirectAttributes.addAttribute("id", siteId);
         return "redirect:/site?#commentaire";
