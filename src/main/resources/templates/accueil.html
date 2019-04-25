@@ -77,15 +77,17 @@
 </div>
 
 <script th:if="${error!=null}" th:inline="javascript">
-    $('#modalLabel').text = "Votre inscription a échoué";
-    $('#label').value = /*[[${error}]]*/ 0;
-    $('#infoModal').modal('show');
+    var modal = $('#infoModal');
+    modal.find('.modal-title').text("Votre inscription a échoué");
+    modal.find('.col-form-label').text("/*[[${error}]]*/");
+    modal.modal('show');
 </script>
 
 <script th:if="${message!=null}" th:inline="javascript">
-    $('#modalLabel').text = "Votre inscription a échoué";
-    $('#label').value = /*[[${message}]]*/ 0;
-    $('#infoModal').modal('show');
+    var modal = $('#infoModal');
+    modal.find('.modal-title').text("Bienvenue!");
+    modal.find('.col-form-label').text("Votre compte est dorénavant actif. Bienvenue dans la communauté VertiGO!");
+    modal.modal('show');
 </script>
 
 
