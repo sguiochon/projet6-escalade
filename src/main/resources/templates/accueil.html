@@ -19,8 +19,7 @@
         <p>Nous vous invitons également à partager vos propres topos afin de faire vivre notre communauté grandissante. </p>
     </div>
 
-    <h1 th:text="#{welcomepage.label.welcome}">Les meilleurs sites du moment...<span
-            class="badge badge-secondary">New</span></h1>
+    <h1 th:text="#{welcomepage.label.welcome}">Les meilleurs sites du moment...</h1>
     <p>&nbsp;</p>
 
 
@@ -29,9 +28,7 @@
             <div class="card-body">
                 <h5 class="card-title" th:text="${site.pays} + ' - ' +  ${site.nom}">FRANCE - Vallée de Chamonix</h5>
                 <img class="float-left" th:src="${site.image2}" src="mont-blanc_160x160.jpg" style="padding-right:8px" alt="Card image cap">
-                <p class="card-text" th:text="${site.description}">Some quick example text to build on the card title
-                    and make up the bulk of the card's
-                    content.</p>
+                <p class="card-text" th:text="${site.description}">description du site.</p>
                 <div>
                     <button type="button" class="btn btn-secondary" style="margin:1px">
                         Hauteur <span th:text="${site.hauteur} + 'm'" class="badge badge-light"></span>

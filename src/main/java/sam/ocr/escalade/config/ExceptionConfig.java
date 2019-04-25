@@ -9,19 +9,6 @@ import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import java.util.Properties;
 
-/**
- * Setup for exception handling using a {@link SimpleMappingExceptionResolver}
- * bean.
- * <p>
- * If you prefer to do this in XML set the {@link Main#activeProfile} property
- * to <code>XML_CONFIG_PROFILE</code> (see <code>mvc-configuration.xml</code>).
- * <p>
- * The use of the JAVA_CONFIG profile here is for demonstration only. A real
- * application wouldn't normally need to switch between XML or Java
- * Configuration. You would use one, or other, or both, all the time.
- *
- * @author Paul Chapman
- */
 @Configuration
 public class ExceptionConfig {
 
@@ -50,6 +37,7 @@ public class ExceptionConfig {
         Properties mappings = new Properties();
         mappings.setProperty("DatabaseException", "databaseException");
         //mappings.setProperty("InvalidCredentialsException", "credentialsException");
+
         r.setExceptionMappings(mappings); // None by default
 
         r.setExceptionAttribute("ex"); // Default is "exception"

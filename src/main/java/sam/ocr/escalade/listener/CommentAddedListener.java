@@ -19,7 +19,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 @Component
-public class CommentAddedListener implements ICommentAddedListener {
+public class CommentAddedListener implements ApplicationListener<OnCommentAddedEvent> {
 
     private static final Logger logger = LoggerFactory.getLogger(CommentAddedListener.class);
 
