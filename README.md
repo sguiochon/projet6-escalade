@@ -62,6 +62,8 @@ La procédure est la suivante:
 
 Le format du package spécifié dans le fichier pom.xml est war. Une version du war produit à l'issue de l'étape de packaging par Maven est fournie dans le répertoire target, prêt pour déploiement dans un contenur web.
 Il est également possible de générer ce même package via la commande `mvn clean package`.
+
+Si le package target/escalade-0.0.1-SNAPSHOT.war est déployé dans un conteneur web, son URL sera (pour un Tomcat déployé en local disposant de sa configuration par défaut) http://localhost:8080/escalade-0.0.1-SNAPSHOT
  
 
 ## Choix de la base de données
