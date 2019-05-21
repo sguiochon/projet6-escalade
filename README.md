@@ -85,7 +85,7 @@ Afin de permettre l'utilisation du site à l'issue de son démarrage, des donné
 
 Ces données sont présentes sous forme de statements SQL dans le fichier _src/main/resources/data.sql_. Leur chargement est assuré par SpringBoot.
 
-En outre, cette étape de préchargement des données s'accompagne au préalable, de la création du modèle de persistence dans la Base de Données. De fait, il n'est pas nécessaire de créer cette structure au préalable.
+En outre, cette étape de préchargement des données s'accompagne au préalable, de la création du modèle de persistence dans la Base de Données. De fait, il n'est pas nécessaire de créer cette structure manuellement.
 Ce comportement est régi par la valeur de la propriété `spring.jpa.hibernate.ddl-auto` dans les fichiers de configuration _application-XXXX.properties_. Pour plus d'information, se référer à la document de Spring https://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html. 
 
 ## Eléments de configuration
