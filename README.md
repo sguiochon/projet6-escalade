@@ -16,8 +16,8 @@ On distinguera ainsi 3 types d'acteurs:
 # Fonctionnalités non implémentées
 
 Les fonctionnalités suivantes ne sont pas opérationnelles dans la version proposée du site:
-- consultation du profil utilisateur
-- fonction de recherche du bandeau de navigation
+1) consultation du profil utilisateur
+2) fonction de recherche du bandeau de navigation
 
 
 # Découvrir le site et ses fonctionnalités
@@ -26,11 +26,11 @@ Les fonctionnalités suivantes ne sont pas opérationnelles dans la version prop
 Une version du site est accessible à l'URL suivante:
 http://fragoland.herokuapp.com
 
-L'ouverture de la page peut prendre quelques minutes. En effet, l'application étant hebergée via un service gratuit, l'infrastructure qu'elle utilise ne maintient pas l'application web en condition up and running. Elle est arrêtée au bout d'un temps d'inutilisation et doit donc être redémarrée en cas de sollicitation ultérieure (les données sont intiales sont alors rétablies) . D'où le temps de latence.
+L'ouverture de la page peut prendre quelques minutes. En effet, l'application étant hebergée via un service gratuit, l'infrastructure qu'elle utilise ne maintient pas l'application web en condition opérationnelle H24. Elle est arrêtée au bout d'un temps d'inutilisation et doit donc être redémarrée en cas de sollicitation ultérieure (les données sont alors rétablies sous leur forme initiale). Ce redémarrage de l'application peut induire un temps de latence de quelques minutes.
 
 ## Parcours de découverte
 Pour découvrir l'application, il est proposé de procéder en deux étapes:
-1) Consulter les différentes sections en tant qu'internaute 'non membre'. Il est ainsi possible d'accéder à la liste des sites, d'effectuer une recherche parmi eux, de consulter les informations détaillées. Dans ce contexte, il est également possible de consulter les topo.
+1) Consulter les différentes sections en tant qu'internaute 'non enregistré'. Il est ainsi possible d'accéder à la liste des sites, d'effectuer une recherche parmi eux, de consulter les informations détaillées. Dans ce contexte, il est également possible de consulter les topo.
 2) Créer un compte, puis s'authentifier sur le site. Dés lors, il est possible de laisser un commentaire sur un site (qui devra être validé pour apparaitre), de réserver un topo (s'il n'est pas déjà réservé), de consulter la liste des topos préalablement prêtés par le membre (et d'en voir le statut), d'ajouter un nouveau topo.
 
 La création de compte __est opérationnelle__ et peut donc être testée.
@@ -46,7 +46,7 @@ Mot de passe: 1234
 ##  Déploiement avec ou sans conteneur web préinstallé
 L'application peut être déployée de deux façons:
 1) sous forme d'une application standalone intégrant un conteneur web (grâce à SpringBoot)
-2) sous forme d'une webapp traditionnelle (__war__) à déployer dans le répertoire webapps d'un conteneur web (comme Tomcat)
+2) sous forme d'une webapp traditionnelle (__war__) à déployer dans le répertoire webapps d'un conteneur web (comme Tomcat, par exemple)
 
 ### Déploiement sans conteneur web 
 C'est le mode de déploiement le plus simple car il ne nécessite pas l'installation préalable d'un conteneur web. Pour tester l'application, c'est le mode de déploiement préconisé.
@@ -55,6 +55,8 @@ La procédure est la suivante:
 1) cloner le projet githib
 2) S'assurer que la version de Java utilisée est la version 1.8 et que Maven est installé
 3) Exécuter la ligne de commande: `mvn clean package spring-boot:run` 
+4) Ouvrir un browser web à l'adresse http://localhost:9090
+
     
 ### Déploiement dans un conteneur web
 
@@ -97,6 +99,9 @@ Valeurs à renseigner (a minima): `spring.mail.host`, `spring.mail.port`, `sprin
 La configuration des logs (niveau, appenders...) est définie dans le fichier _src/main/resource/logback.xml_. 
 
 Enfin, un dernier fichier de configuration est disponible: _src/main/resources/vertigo.properties_. Il permet de spécifier le nombre d'éléments affichés dans un tableau (liste de sites, liste de topo). Ainsi que le nombre d'item présents dans l'élément de navigation entre pages d'un tableau. 
+
+Le port d'écoute du conteneur web lorsque l'application est exécutée sous forme d'application standalone est configurable dans le fichier _src/main/resources/application.properties_.
+
 
 # Description technique
 
