@@ -117,3 +117,10 @@ L'application utilise les frameworks & projets suivants:
 4) Spring Security (pour faciliter la déclaration de droits d'accès aux ressources et les droits associés aux utilisateurs)
 5) Thymeleaf & Thymeleaf Spring Security pour faciliter l'écriture des templates de page
 6) Bootstrap pour faciliter le développement des composants (HTML/CSS) et le support du responsive.
+
+# Livrables attendus
+L'ensemble des livrables attendus est inclu dans le projet Github:
+1) code source: répertoire _src_
+2) scripts SQL de création de la BdD et jeu de données de démo: fichier _dump_db-postgres_ocrescalade.sql_ et _src/main/resources:data.sql_.
+3) documentation succincte: ce fichier _README.md_
+4) fichiers de configuration: _src/main/resources/application.properties_, _application-XXXX.properties_, _logback.xml_, _vertigo.properties_
