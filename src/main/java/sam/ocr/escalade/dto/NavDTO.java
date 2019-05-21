@@ -3,6 +3,9 @@ package sam.ocr.escalade.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DTO contenant l'ensemble des informations permettant de construire la barre de navigation paginée.
+ */
 public class NavDTO {
 
     List<NavItem> items;

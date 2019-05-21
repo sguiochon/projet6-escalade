@@ -10,7 +10,7 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
  * Cette classe remplace le taskExecutor utilisé par Spring par défaut (qui est synchrone)
  * par une instance permettant le traitement asychrone des Events par les Listener.
  */
-@Configuration
+//@Configuration
 public class AsyncSpringEventsConfig {
     @Bean(name = "applicationEventMulticaster")
     public ApplicationEventMulticaster simpleApplicationEventMulticaster() {

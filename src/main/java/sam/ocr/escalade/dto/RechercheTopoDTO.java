@@ -1,5 +1,8 @@
 package sam.ocr.escalade.dto;
 
+/**
+ * DTO utilisé par une vue afin de construire les critères de recherche de topos choisis par l'utilisateur
+ */
 public class RechercheTopoDTO extends RechercheDTO {
     private String titre;
     private String site;

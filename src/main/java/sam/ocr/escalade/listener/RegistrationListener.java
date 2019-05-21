@@ -4,17 +4,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import sam.ocr.escalade.model.VerificationToken;
 import sam.ocr.escalade.repository.VerificationTokenRepository;
 
 import java.util.UUID;
 
+/**
+ * Listener d'évènement généré lors de la création d'un compte utilisateur.
+ * En réponse à cet évènement, un mail de confirmation est envoyé à l'utilisateur permettant d'activer le compte temporaire créé.
+ */
 @Component
-public class RegistrationListener implements ApplicationListener<OnRegistrationEvent> {
+public class RegistrationListener{
 
     private static final Logger logger = LoggerFactory.getLogger(RegistrationListener.class);
 
@@ -31,7 +37,8 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationE
         this.tokenRepository = tokenRepository;
     }
 
-    @Override
+    @Async
+    @EventListener
     public void onApplicationEvent(OnRegistrationEvent event) {
         UUID uuid = UUID.randomUUID();
         VerificationToken verificationToken = new VerificationToken();

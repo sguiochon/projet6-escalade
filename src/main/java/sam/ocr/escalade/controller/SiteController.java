@@ -24,6 +24,9 @@ import java.util.Optional;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+/**
+ * Contrôleur gérant l'affichage de la page présentant la liste des sites 'mis en avant', la liste des sites disponibles, la description détaillée d'un site, la soumission d'un commentaire.
+ */
 @Controller
 public class SiteController {
 

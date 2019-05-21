@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import sam.ocr.escalade.model.Commentaire;
 import sam.ocr.escalade.model.VerificationToken;
@@ -18,8 +20,12 @@ import sam.ocr.escalade.service.CommentaireService;
 import java.util.Locale;
 import java.util.UUID;
 
+/**
+ * Listener d'évènement généré lors de l'ajout d'un commentaire sur un site.
+ * En réponse à cet évènement, un mail de validation du commentaire est envoyé à l'administrateur.
+ */
 @Component
-public class CommentAddedListener implements ApplicationListener<OnCommentAddedEvent> {
+public class CommentAddedListener {
 
     private static final Logger logger = LoggerFactory.getLogger(CommentAddedListener.class);
 
@@ -36,7 +42,8 @@ public class CommentAddedListener implements ApplicationListener<OnCommentAddedE
         this.tokenRepository = tokenRepository;
     }
 
-    @Override
+    @Async
+    @EventListener
     public void onApplicationEvent(OnCommentAddedEvent event) {
 
         UUID uuid = UUID.randomUUID();
@@ -57,7 +64,6 @@ public class CommentAddedListener implements ApplicationListener<OnCommentAddedE
         final String confirmationUrl = event.getAppUrl() + "/commentValidation?token=" + token;
         String message = "Un commentaire vient d'être soumis par " + event.getAuteur().getFirstName() + " " + event.getAuteur().getLastName() + " (" + event.getAuteur().getEmail() + "):\r\n";
         message += event.getCommentaire().getContenu() + "\r\n";
-        //messages.getMessage("message.regSucc", null, Locale.FRANCE);
         final SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);

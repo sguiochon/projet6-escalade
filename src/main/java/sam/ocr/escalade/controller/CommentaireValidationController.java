@@ -11,6 +11,10 @@ import sam.ocr.escalade.service.CommentaireService;
 
 import java.util.Optional;
 
+/**
+ * Controller permettant de valider un commentaire par un administrateur.
+ * L'origine de cet appel est un lien dans un email.
+ */
 @Controller
 public class CommentaireValidationController {
 

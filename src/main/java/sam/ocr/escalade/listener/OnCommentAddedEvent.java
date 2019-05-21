@@ -4,6 +4,9 @@ import org.springframework.context.ApplicationEvent;
 import sam.ocr.escalade.model.Commentaire;
 import sam.ocr.escalade.model.User;
 
+/**
+ * Evènement d'ajout de commentaire.
+ */
 public class OnCommentAddedEvent extends ApplicationEvent {
 
     private Commentaire commentaire;

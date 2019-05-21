@@ -20,6 +20,9 @@ import sam.ocr.escalade.service.StorageService;
 
 import java.security.Principal;
 
+/**
+ * Controlleur fournissant l'affichage des pages en lien avec les prêts de topo (liste des topos disponibles et ajout d'un prêt par un utilisateur)
+ */
 @Controller
 public class PretController {
 

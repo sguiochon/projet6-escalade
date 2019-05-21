@@ -17,6 +17,9 @@ import sam.ocr.escalade.service.TopoService;
 
 import java.security.Principal;
 
+/**
+ * Contrôleur gérant l'affichage de la liste des topos et la demande de réservation de l'un d'eux.
+ */
 @Controller
 public class TopoController {
 
@@ -58,7 +61,7 @@ public class TopoController {
     @RequestMapping(value="/resa", method = RequestMethod.POST)
     @ResponseBody
     public String reserverTopo( Principal principal, @RequestBody ReservationTopoDTO reservation){
-        logger.info("oooooooo+++++++/////////// > Principal name: " + principal.getName() + ", id: " + reservation.getId() + ", durée:" + reservation.getDuration());
+        logger.info("Reservation Topo - Principal name: " + principal.getName() + ", id: " + reservation.getId() + ", durée:" + reservation.getDuration());
 
         topoService.reserveTopo(principal.getName(), reservation.getId(), reservation.getDuration());
 

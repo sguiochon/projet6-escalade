@@ -11,6 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import sam.ocr.escalade.service.VertigoUserDetailsService;
 
+/**
+ * Configuration de la sécurité (accès aux ressources web, mécanique d'authentification)
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -22,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/sites", "/site", "/sample", "/topos", "/commentValidation","/register", "/confirmRegistration", "/pays", "/nomSite","/sujetTopo","/*.jpg", "/*.png", "/*.css", "/*.js").permitAll()
+                .antMatchers("/", "/sites", "/site", "/sample", "/topos", "/commentValidation","/register", "/confirmRegistration", "/pays", "/nomSite","/sujetTopo","/*.jpg", "/*.png", "/*.css", "/*.js", "/*.json").permitAll()
                 .antMatchers("/resa", "/pret").hasAuthority("USER")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
@@ -34,9 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and()
                     .logout()
-                    //.logoutSuccessHandler(logoutSuccessHandler)
                     .invalidateHttpSession(true)
-                    //.logoutSuccessUrl("/")//logout.html?logSucc=true")
                     .deleteCookies("JSESSIONID")
                     .permitAll()
                 .and()
@@ -44,6 +45,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable();
     }
 
+    /**
+     * Déclaration du fournisseur d'authentification
+     * @return l'instance du fournisseur d'authentification
+     */
     @Bean
     public DaoAuthenticationProvider authProvider() {
         final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -52,6 +57,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
+    /**
+     * Déclaration du bean utilisé par le fournisseur d'authentification pour encoder les mdp.
+     * @return le bean chargé d'encodé les mdp
+     */
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder(11);

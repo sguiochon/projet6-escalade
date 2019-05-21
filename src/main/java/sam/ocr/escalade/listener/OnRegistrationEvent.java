@@ -3,7 +3,9 @@ package sam.ocr.escalade.listener;
 import org.springframework.context.ApplicationEvent;
 import sam.ocr.escalade.model.User;
 
-
+/**
+ * Evènement de création d'un compte utilisateur.
+ */
 public class OnRegistrationEvent extends ApplicationEvent {
 
     private final String appUrl;

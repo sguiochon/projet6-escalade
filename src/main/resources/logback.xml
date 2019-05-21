@@ -1,5 +1,7 @@
 <configuration>
 
+	<property name="LOG_HOME" value="logs" />
+
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			 <pattern>
@@ -7,6 +9,25 @@
 			</pattern>
 		</encoder>
 	</appender>
+
+
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/logFile.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+			<!-- keep 2 days' worth of history capped at 100MB total size -->
+			<maxHistory>2</maxHistory>
+			<totalSizeCap>100MB</totalSizeCap>
+
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
 
 	<logger name="sam.ocr.escalade" level="DEBUG" />
 
@@ -22,7 +43,8 @@
 	<!-- in order to debug some marshalling issues, this needs to be TRACE -->
 	<logger name="org.springframework.web.servlet.mvc" level="TRACE" />
 
-	<root level="INFO">
+	<root level="TRACE">
+		<appender-ref ref="FILE" />
 		<appender-ref ref="STDOUT" />
 	</root>
 

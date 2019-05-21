@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Controller exposant deux ressources REST appelées par le navigateur afin d'obtenir des listes
+ * utilisées pour faciliter le remplissage de champs de recherche.
+ */
 @RestController
 public class FrontendContentRestController {
 

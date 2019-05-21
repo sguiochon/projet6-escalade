@@ -15,7 +15,7 @@ import sam.ocr.escalade.repository.UserRepository;
 
 import java.util.Properties;
 
-@SpringBootApplication//(scanBasePackages = {"sam.ocr.escalade"})
+@SpringBootApplication
 @EnableJpaRepositories(basePackages = {"sam.ocr.escalade"})
 public class Main extends SpringBootServletInitializer {
 
@@ -57,34 +57,9 @@ public class Main extends SpringBootServletInitializer {
      */
     protected void runAsJavaApplication(String[] args) {
         SpringApplicationBuilder application = new SpringApplicationBuilder();
-        configure(application);
+        application.sources(Main.class);
         application.run(args);
         logger.info("L'application a demarre.");
     }
 
-    /**
-     * Configure the application using the supplied builder when running as a WAR.
-     * This method is invoked automatically when running in a container and
-     * explicitly by {@link #runAsJavaApplication(String[])}.
-     *
-     * @param application Spring Boot application builder.
-     */
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        application.sources(Main.class);
-
-        // Set additional properties.
-        logger.info("Spring Boot configuration: properties = " + props);
-        application.properties(props);
-
-        return application;
-    }
-
-/*
-    @Bean
-    public CommandLineRunner demo(UserRepository userRepository, PasswordEncoder encoder, RoleRepository roleRepository, PrivilegeRepository privilegeRepository) {
-        return (args) -> {
-        };
-    }
-*/
 }

@@ -5,6 +5,10 @@ import org.springframework.stereotype.Component;
 import sam.ocr.escalade.config.ApplicationConfig;
 import sam.ocr.escalade.dto.NavDTO;
 
+/**
+ * Classe utilitaire permettant de construire une instance de NAvDTO contenant l'ensemble des informations
+ * nécessaires à la représentation des éléments de navigation paginée. Cet objet est ensuite traité par la vue.
+ */
 @Component
 public class TableNavigationHelper {
 

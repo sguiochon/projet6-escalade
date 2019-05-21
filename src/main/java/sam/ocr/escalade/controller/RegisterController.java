@@ -13,6 +13,9 @@ import sam.ocr.escalade.service.UserRegistrationService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
+/**
+ * Contrôleur traitant la demande de création d'un compte utilisateur (affichage de la page et traitement du formulaire soumis).
+ */
 @Controller
 public class RegisterController {
 

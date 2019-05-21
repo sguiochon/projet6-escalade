@@ -12,6 +12,10 @@ import sam.ocr.escalade.service.UserRegistrationService;
 
 import java.util.Optional;
 
+/**
+ * Controller permettant de valider une demande de création de compte par un utilisateur.
+ * L'origine de cet appel est un lien dans un email.
+ */
 @Controller
 public class ConfirmRegistrationController {
 

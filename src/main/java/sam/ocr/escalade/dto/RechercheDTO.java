@@ -1,6 +1,9 @@
 package sam.ocr.escalade.dto;
 
-public class RechercheDTO {
+/**
+ * DTO contenant l'information commmune à RechercheSiteDTO et RechercheTopoDTO
+ */
+public abstract class RechercheDTO {
 
     private String pageNb;
 
