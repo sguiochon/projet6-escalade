@@ -1,6 +1,6 @@
-## OCR - Projet 6
-# Site web communautaire sur l'escalade
+# OCR - Projet 6 - Site web communautaire sur l'escalade
 
+L'ensemble du projet (code source) est disponible sur Github: https://github.com/sguiochon/projet6-escalade
 
 # Introduction
 Ce projet est un exemple de site web communautaire dont l'objectif est de partager entre ses membres leurs connaissances des sites d'escalade.
@@ -84,6 +84,9 @@ Afin de permettre l'utilisation du site à l'issue de son démarrage, des donné
 2) de créer des données d'exemple illustrant les concepts gérés au sein du site (site d'escalade, topoguides, réservation...)
 
 Ces données sont présentes sous forme de statements SQL dans le fichier _src/main/resources/data.sql_. Leur chargement est assuré par SpringBoot.
+
+En outre, cette étape de préchargement des données s'accompagne au préalable, de la création du modèle de persistence dans la Base de Données. De fait, il n'est pas nécessaire de créer cette structure au préalable.
+Ce comportement est régi par la valeur de la propriété `spring.jpa.hibernate.ddl-auto` dans les fichiers de configuration _application-XXXX.properties_. Pour plus d'information, se référer à la document de Spring https://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html. 
 
 ## Eléments de configuration
 L'application dispose de plusieurs éléments de configuration dont la valeur est spécifiée au moyen de plusieurs fichiers de configuration. Une partie de ces éléments a déjà été présentée (choix de la base de donnée). Pour les autres, on distinguera ceux nécessitant impérativement d'être modifiés par l'utilisateur avant le lancement de l'application, et ceux dont les valeurs fournies par défaut permettent le fonctionnement de l'application, sans besoin de les modifier.
